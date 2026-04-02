@@ -1,0 +1,10 @@
+{
+  "mssql.connections": [
+    {
+      "server": "localhost\\SQLEXPRESS",
+      "database": "ProjectDB",
+      "authenticationType": "Integrated",
+      "profileName": "Local Express"
+    }
+  ]
+}
