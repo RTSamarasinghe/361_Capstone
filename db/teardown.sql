@@ -1,0 +1,9 @@
+USE master;
+GO
+
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'ProjectDB')
+BEGIN
+    ALTER DATABASE ProjectDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE ProjectDB;
+END
+GO
