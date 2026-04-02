@@ -7,12 +7,12 @@ USE ProjectDB;
 GO
 
 CREATE TABLE Category (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     Name            NVARCHAR(100) NOT NULL
 );
 
 CREATE TABLE PaymentMethod (
-    ID             INT PRIMARY KEY NOT NULL,
+    ID             INT PRIMARY KEY IDENTITY NOT NULL,
     CardNumberHash NVARCHAR(255) NOT NULL,
     ExpirationDate DATETIME NOT NULL,
     CardholderName NVARCHAR(100) NOT NULL,
@@ -20,11 +20,11 @@ CREATE TABLE PaymentMethod (
 );
 
 CREATE TABLE Cart (
-    Id              INT PRIMARY KEY NOT NULL,    
+    Id              INT PRIMARY KEY IDENTITY NOT NULL    
 );
 
 CREATE TABLE Product (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     Name            NVARCHAR(100) NOT NULL,
     Description     NVARCHAR(255),
     Price           DECIMAL(18, 2) NOT NULL,
@@ -33,12 +33,12 @@ CREATE TABLE Product (
     Manufacturer    NVARCHAR(100),
     Rating          DECIMAL(3, 2),
     Sku             NVARCHAR(50),
-    StockQuantity   INT NOT NULL
+    StockQuantity   INT NOT NULL,
     FOREIGN KEY (CategoryId) REFERENCES Category(Id)
 );
 
 CREATE TABLE CartItem (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     CartId          INT NOT NULL,
     ProductId       INT NOT NULL,
     Quantity        INT NOT NULL,
@@ -48,23 +48,27 @@ CREATE TABLE CartItem (
 
 
 CREATE TABLE Sale (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     StartDate       DATETIME NOT NULL,
     EndDate         DATETIME,
     DiscountAmount  DECIMAL(18, 2),
     DiscountPercent DECIMAL(5, 2),
-    Products        INT,
-    Categories      INT,
-    FOREIGN KEY (Products) REFERENCES Product(Id),
-    FOREIGN KEY (Categories) REFERENCES Category(Id)
 );
 
 CREATE TABLE SaleItem (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     SaleId          INT NOT NULL,
     ProductId       INT NOT NULL,
     FOREIGN KEY (SaleId) REFERENCES Sale(Id),
     FOREIGN KEY (ProductId) REFERENCES Product(Id)
+);
+
+CREATE TABLE SaleCategory (
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
+    SaleId          INT NOT NULL,
+    CategoryId      INT NOT NULL,
+    FOREIGN KEY (SaleId) REFERENCES Sale(Id),
+    FOREIGN KEY (CategoryId) REFERENCES Category(Id)
 );
 
 CREATE TABLE Customer (
@@ -75,13 +79,12 @@ CREATE TABLE Customer (
     PassHash        NVARCHAR(100) NOT NULL,
     UserCart        INT NOT NULL,
     PaymentMethodId INT NOT NULL,
-    Address         NVARCHAR(255) NOT NULL,
     FOREIGN KEY (UserCart) REFERENCES Cart(Id),
     FOREIGN KEY (PaymentMethodId) REFERENCES PaymentMethod(Id)
 );
 
 CREATE TABLE Address (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     CustomerId      INT NOT NULL,
     Street          NVARCHAR(255) NOT NULL,
     City            NVARCHAR(100) NOT NULL,
@@ -115,7 +118,7 @@ CREATE TABLE ORDERITEM (
 );
 
 CREATE TABLE Payment (
-    Id              INT PRIMARY KEY NOT NULL,
+    Id              INT PRIMARY KEY IDENTITY NOT NULL,
     OrderId         INT NOT NULL,
     Amount          DECIMAL(18, 2) NOT NULL,
     PaymentDate     DATETIME NOT NULL,
