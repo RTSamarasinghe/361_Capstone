@@ -1,5 +1,4 @@
 using DataContracts;
-
 public interface IPaymentMethodAccessor
 {
     int AddPaymentMethod(string cardNumberHash, DateTime expirationDate, string cardholderName, string pinHash);

@@ -46,25 +46,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\notth\\.nuget\\packages\\": {},
-    "C:\\Simple D\\VS\\component or tool\\NuGetPackages": {}
+    "C:\\Users\\teag0\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Simple D\\VS\\361_Capstone\\Managers\\Managers.csproj",
+      "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj",
       "projectName": "Managers",
-      "projectPath": "C:\\Simple D\\VS\\361_Capstone\\Managers\\Managers.csproj",
-      "packagesPath": "C:\\Users\\notth\\.nuget\\packages\\",
-      "outputPath": "C:\\Simple D\\VS\\361_Capstone\\Managers\\obj\\",
+      "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj",
+      "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Simple D\\VS\\component or tool\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\notth\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -76,11 +70,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj": {
-              "projectPath": "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj"
+            "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
+              "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
             },
-            "C:\\Simple D\\VS\\361_Capstone\\Engines\\Engines.csproj": {
-              "projectPath": "C:\\Simple D\\VS\\361_Capstone\\Engines\\Engines.csproj"
+            "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj": {
+              "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj"
             }
           }
         }
