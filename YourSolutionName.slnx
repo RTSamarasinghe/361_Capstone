@@ -1,2 +1,7 @@
 <Solution>
+  <Project Path="Accessors/Accessors.csproj" />
+  <Project Path="DataContracts/DataContracts.csproj" />
+  <Project Path="Engines/Engines.csproj" />
+  <Project Path="Host/Host.csproj" />
+  <Project Path="Managers/Managers.csproj" />
 </Solution>
