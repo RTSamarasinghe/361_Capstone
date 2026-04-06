@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    "net10.0": {}
+    "net10.0": {
+      "DataContracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/DataContracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataContracts.dll": {}
+        }
+      },
+      "Engines/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "DataContracts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Engines.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engines.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "DataContracts/1.0.0": {
+      "type": "project",
+      "path": "../DataContracts/DataContracts.csproj",
+      "msbuildProject": "../DataContracts/DataContracts.csproj"
+    },
+    "Engines/1.0.0": {
+      "type": "project",
+      "path": "../Engines/Engines.csproj",
+      "msbuildProject": "../Engines/Engines.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0": []
+    "net10.0": [
+      "DataContracts >= 1.0.0",
+      "Engines >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\teag0\\.nuget\\packages\\": {}
@@ -31,7 +69,14 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
+              "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
+            },
+            "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj": {
+              "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
