@@ -6,7 +6,11 @@
       "authenticationType": "Integrated",
       "profileName": "Local Express",
       "groupId": "ROOT",
-      "id": "6aa1f6fa-2eac-4db7-8c77-ce7dedd51732"
+      "id": "6aa1f6fa-2eac-4db7-8c77-ce7dedd51732",
+      "profileSource": 0,
+      "encrypt": "Mandatory",
+      "trustServerCertificate": true,
+      "password": ""
     }
   ]
 }
