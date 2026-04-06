@@ -4,7 +4,9 @@
       "server": "localhost\\SQLEXPRESS",
       "database": "ProjectDB",
       "authenticationType": "Integrated",
-      "profileName": "Local Express"
+      "profileName": "Local Express",
+      "groupId": "ROOT",
+      "id": "6aa1f6fa-2eac-4db7-8c77-ce7dedd51732"
     }
   ]
 }
