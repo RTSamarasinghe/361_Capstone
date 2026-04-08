@@ -11,11 +11,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const formData = new URLSearchParams();
-      formData.append("username", username);
-      formData.append("password", password);
-
-      const res = await api.post("/login", formData);
+      const res = await api.post("/login", { username, password });
 
       localStorage.setItem("token", res.data.access_token);
       console.log("Logged in token:", res.data.access_token);
