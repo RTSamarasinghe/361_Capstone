@@ -1,25 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj": {}
+    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {}
   },
   "projects": {
-    "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj": {
+    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj",
+        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj",
         "projectName": "DataContracts",
-        "projectPath": "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\DataContracts.csproj",
-        "packagesPath": "C:\\Users\\notth\\.nuget\\packages\\",
-        "outputPath": "C:\\Simple D\\VS\\361_Capstone\\DataContracts\\obj\\",
+        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj",
+        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Simple D\\VS\\component or tool\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\notth\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
