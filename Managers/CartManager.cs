@@ -1,57 +1,49 @@
+using DataContracts;
+
 public class CartManager : ICartManager
 {
-	private readonly ICartEngine _cartEngine;
-	private readonly IProductEngine _productEngine;
+    private readonly ICartAccessor _cartAccessor;
 
-	public CartManager(ICartEngine cartEngine, IProductEngine productEngine)
-	{
-		_cartEngine = cartEngine;
-		_productEngine = productEngine;
-	}
+    public CartManager(ICartAccessor cartAccessor)
+    {
+        _cartAccessor = cartAccessor;
+    }
 
-	public CartDto GetCart(int customerId)
-	{
-		return _cartEngine.GetCart(customerId);
-	}
+    public int AddCart()
+    {
+        return _cartAccessor.AddCart();
+    }
 
-	public void AddCartItem(int customerId, int cartItemId, int quantity)
-	{
-		// Orchestration logic
+    public Cart GetCart(int id)
+    {
+        if (id <= 0)
+        {
+            throw new ArgumentException("Cart id must be greater than 0.");
+        }
 
-		var product = _productEngine.GetProduct(cartItemId);
+        Cart cart = _cartAccessor.GetCart(id);
 
-		if (product == null)
-			throw new Exception("Product not found");
+        if (cart == null)
+        {
+            throw new Exception("Cart not found.");
+        }
 
-		if (product.Stock < quantity)
-			throw new Exception("Not enough stock");
+        return cart;
+    }
 
-		_cartEngine.AddItem(customerId, cartItemId, quantity);
-	}
+    public void DeleteCart(int id)
+    {
+        if (id <= 0)
+        {
+            throw new ArgumentException("Cart id must be greater than 0.");
+        }
 
-	public void RemoveItem(int customerId, int cartItemId)
-	{
-		_cartEngine.RemoveItem(customerId, cartItemId);
-	}
+        Cart existingCart = _cartAccessor.GetCart(id);
+        if (existingCart == null)
+        {
+            throw new Exception("Cart not found.");
+        }
 
-	public void UpdateCartItem(int customerId, int cartItemId, int quantity)
-	{
-		if (quantity <= 0)
-		{
-			_cartEngine.RemoveItem(customerId, cartItemId);
-			return;
-		}
-
-		var product = _productEngine.GetProduct(cartItemId);
-
-		if (product.Stock < quantity)
-			throw new Exception("Not enough stock");
-
-		_cartEngine.UpdateQuantity(customerId, cartItemId, quantity);
-	}
-
-	public void ClearCart(int customerId)
-	{
-		_cartEngine.ClearCart(customerId);
-	}
+        _cartAccessor.DeleteCart(id);
+    }
 }
