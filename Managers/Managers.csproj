@@ -3,6 +3,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
     <ProjectReference Include="..\Engines\Engines.csproj" />
+    <ProjectReference Include="..\Accessors\Accessors.csproj" />
+
   </ItemGroup>
 
   <PropertyGroup>
