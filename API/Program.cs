@@ -33,6 +33,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Auth functionality
+
 app.MapPost("/auth/register", (string Username, string Password) =>
 {
     //register user
@@ -50,6 +52,47 @@ app.MapPost("/auth/me", () =>
     //check who curr user is
     return success ? Results.Unauthorized() : Results.Ok(user);
 });
+
+// Product Functionality
+
+app.MapGet("/products", () =>
+{
+    return Results.Ok();
+});
+
+app.MapGet("/products/{id}", (int id) =>
+{
+    //var product = getProduct(id);
+    return product is null ? Results.NotFound() : Results.Ok(product);
+});
+
+app.MapPost("/products", (Product product) =>
+{
+    //Add(product);
+    return Results.Created($"/products/{product.Id}", product);
+});
+
+// Cart Functionality
+
+app.MapGet("/cart", () =>
+{
+    return Results.Ok();
+});
+
+app.MapPost("/cart/items", (int CartItemId) =>
+{
+    //AddItem(item);
+    return Results.Ok();
+});
+
+app.MapDelete("/cart", () =>
+{
+    //ClearCart();
+    return Results.NoContent();
+});
+
+
+
 
 app.Run();
 
