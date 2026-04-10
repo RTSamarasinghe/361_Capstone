@@ -2,48 +2,50 @@ using DataContracts;
 
 public class CartManager : ICartManager
 {
-    private readonly ICartAccessor _cartAccessor;
+    private readonly ICartEngine _cartEngine;
 
-    public CartManager(ICartAccessor cartAccessor)
+    public CartManager(ICartEngine cartEngine)
     {
-        _cartAccessor = cartAccessor;
+        _cartEngine = cartEngine;
     }
 
     public int AddCart()
     {
-        return _cartAccessor.AddCart();
+        return _cartEngine.AddCart();
     }
 
     public Cart GetCart(int id)
     {
-        if (id <= 0)
-        {
-            throw new ArgumentException("Cart id must be greater than 0.");
-        }
+        return _cartEngine.GetCart(id);
+    }
 
-        Cart cart = _cartAccessor.GetCart(id);
+    public List<CartItem> GetCartItems(int cartId)
+    {
+        return _cartEngine.GetCartItems(cartId);
+    }
 
-        if (cart == null)
-        {
-            throw new Exception("Cart not found.");
-        }
+    public int AddCartItem(int cartId, int productId, int quantity)
+    {
+        return _cartEngine.AddCartItem(cartId, productId, quantity);
+    }
 
-        return cart;
+    public void UpdateCartItemQuantity(int cartItemId, int quantity)
+    {
+        _cartEngine.UpdateCartItemQuantity(cartItemId, quantity);
+    }
+
+    public void RemoveCartItem(int cartItemId)
+    {
+        _cartEngine.RemoveCartItem(cartItemId);
+    }
+
+    public void ClearCart(int cartId)
+    {
+        _cartEngine.ClearCart(cartId);
     }
 
     public void DeleteCart(int id)
     {
-        if (id <= 0)
-        {
-            throw new ArgumentException("Cart id must be greater than 0.");
-        }
-
-        Cart existingCart = _cartAccessor.GetCart(id);
-        if (existingCart == null)
-        {
-            throw new Exception("Cart not found.");
-        }
-
-        _cartAccessor.DeleteCart(id);
+        _cartEngine.DeleteCart(id);
     }
 }
