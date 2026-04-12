@@ -1,33 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Host\\Host.csproj": {}
+    "D:\\361_capstone\\Host\\Host.csproj": {}
   },
   "projects": {
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\Accessors.csproj": {
+    "D:\\361_capstone\\Accessors\\Accessors.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\Accessors.csproj",
+        "projectUniqueName": "D:\\361_capstone\\Accessors\\Accessors.csproj",
         "projectName": "Accessors",
-        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\Accessors.csproj",
-        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\obj\\",
+        "projectPath": "D:\\361_capstone\\Accessors\\Accessors.csproj",
+        "packagesPath": "C:\\Users\\kavil\\.nuget\\packages\\",
+        "outputPath": "D:\\361_capstone\\Accessors\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kavil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
+              "D:\\361_capstone\\DataContracts\\DataContracts.csproj": {
+                "projectPath": "D:\\361_capstone\\DataContracts\\DataContracts.csproj"
               }
             }
           }
@@ -42,7 +48,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -69,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -347,22 +353,28 @@
         }
       }
     },
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
+    "D:\\361_capstone\\DataContracts\\DataContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj",
+        "projectUniqueName": "D:\\361_capstone\\DataContracts\\DataContracts.csproj",
         "projectName": "DataContracts",
-        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj",
-        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\obj\\",
+        "projectPath": "D:\\361_capstone\\DataContracts\\DataContracts.csproj",
+        "packagesPath": "C:\\Users\\kavil\\.nuget\\packages\\",
+        "outputPath": "D:\\361_capstone\\DataContracts\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kavil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -381,7 +393,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -402,7 +414,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -680,30 +692,39 @@
         }
       }
     },
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj": {
+    "D:\\361_capstone\\Engines\\Engines.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj",
+        "projectUniqueName": "D:\\361_capstone\\Engines\\Engines.csproj",
         "projectName": "Engines",
-        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj",
-        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\obj\\",
+        "projectPath": "D:\\361_capstone\\Engines\\Engines.csproj",
+        "packagesPath": "C:\\Users\\kavil\\.nuget\\packages\\",
+        "outputPath": "D:\\361_capstone\\Engines\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kavil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
+              "D:\\361_capstone\\Accessors\\Accessors.csproj": {
+                "projectPath": "D:\\361_capstone\\Accessors\\Accessors.csproj"
+              },
+              "D:\\361_capstone\\DataContracts\\DataContracts.csproj": {
+                "projectPath": "D:\\361_capstone\\DataContracts\\DataContracts.csproj"
               }
             }
           }
@@ -718,7 +739,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -739,7 +760,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1017,39 +1038,45 @@
         }
       }
     },
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Host\\Host.csproj": {
+    "D:\\361_capstone\\Host\\Host.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Host\\Host.csproj",
+        "projectUniqueName": "D:\\361_capstone\\Host\\Host.csproj",
         "projectName": "Host",
-        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Host\\Host.csproj",
-        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Host\\obj\\",
+        "projectPath": "D:\\361_capstone\\Host\\Host.csproj",
+        "packagesPath": "C:\\Users\\kavil\\.nuget\\packages\\",
+        "outputPath": "D:\\361_capstone\\Host\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kavil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\Accessors.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Accessors\\Accessors.csproj"
+              "D:\\361_capstone\\Accessors\\Accessors.csproj": {
+                "projectPath": "D:\\361_capstone\\Accessors\\Accessors.csproj"
               },
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
+              "D:\\361_capstone\\DataContracts\\DataContracts.csproj": {
+                "projectPath": "D:\\361_capstone\\DataContracts\\DataContracts.csproj"
               },
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj"
+              "D:\\361_capstone\\Engines\\Engines.csproj": {
+                "projectPath": "D:\\361_capstone\\Engines\\Engines.csproj"
               },
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj"
+              "D:\\361_capstone\\Managers\\Managers.csproj": {
+                "projectPath": "D:\\361_capstone\\Managers\\Managers.csproj"
               }
             }
           }
@@ -1064,7 +1091,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -1094,7 +1121,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -1512,33 +1539,42 @@
         }
       }
     },
-    "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj": {
+    "D:\\361_capstone\\Managers\\Managers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj",
+        "projectUniqueName": "D:\\361_capstone\\Managers\\Managers.csproj",
         "projectName": "Managers",
-        "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\Managers.csproj",
-        "packagesPath": "C:\\Users\\teag0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Managers\\obj\\",
+        "projectPath": "D:\\361_capstone\\Managers\\Managers.csproj",
+        "packagesPath": "C:\\Users\\kavil\\.nuget\\packages\\",
+        "outputPath": "D:\\361_capstone\\Managers\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\teag0\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kavil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\DataContracts\\DataContracts.csproj"
+              "D:\\361_capstone\\Accessors\\Accessors.csproj": {
+                "projectPath": "D:\\361_capstone\\Accessors\\Accessors.csproj"
               },
-              "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj": {
-                "projectPath": "C:\\Users\\teag0\\OneDrive\\Desktop\\Class code\\CS361\\361_Capstone\\Engines\\Engines.csproj"
+              "D:\\361_capstone\\DataContracts\\DataContracts.csproj": {
+                "projectPath": "D:\\361_capstone\\DataContracts\\DataContracts.csproj"
+              },
+              "D:\\361_capstone\\Engines\\Engines.csproj": {
+                "projectPath": "D:\\361_capstone\\Engines\\Engines.csproj"
               }
             }
           }
@@ -1553,7 +1589,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -1574,7 +1610,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
