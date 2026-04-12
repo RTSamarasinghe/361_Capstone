@@ -1,4 +1,4 @@
-
+MS
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ProjectDB')
     CREATE DATABASE ProjectDB;
 GO
