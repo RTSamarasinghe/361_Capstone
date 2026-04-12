@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
+    <ProjectReference Include="..\Accessors\Accessors.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
