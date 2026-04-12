@@ -1,142 +1,88 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Managers;
 using DataContracts;
 using Moq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace ManagerTests
+namespace CustomerTest;
+
+[TestClass]
+public class CustonerManagerTests
 {
-    [TestClass]
-    public sealed class CustomerManagerTests
+    private Mock<ICustomerEngine> _customerEngineMock;
+    private CustomerManager _customerManager;
+
+    [TestInitialize]
+    public void Setup()
     {
-
-
-        private Mock<ICustomerAccessor> _mockAccessor;
-        private CustomerManager _manager;
-
-        [TestInitialize]
-        public void Setup()
-        {
-            _mockAccessor = new Mock<ICustomerAccessor>();
-            _manager = new CustomerManager(_mockAccessor.Object);
-        }
-        [TestMethod]
-        public void AddCustomer()
-        {
-            _mockAccessor
-                .Setup(a => a.GetCustomerByEmail("test@email.com"))
-                .Returns((Customer)null);
-
-            _mockAccessor
-                .Setup(a => a.AddCustomer(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 1, 1))
-                .Returns(1);
-
-            int result = _manager.AddCustomer("John", "test@email.com", "hash", 1, 1);
-
-            Assert.AreEqual(1, result);
-
-        }
-
-    [TestMethod]
-        public void AddCustomer_Throws_WhenEmailAlreadyExists()
-    {
-        _mockAccessor
-            .Setup(a => a.GetCustomerByEmail("exists@email.com"))
-            .Returns(new Customer { Id = 2, Email = "exists@email.com" });
-
-            Assert.Throws<ArgumentException>(() => _manager.AddCustomer("Jane", "exists@email.com", "hash", 1, 1));
-        }
-
-    [TestMethod]
-    public void AddCustomer_TrimsInputs_And_CallsAccessor()
-    {
-        _mockAccessor
-            .Setup(a => a.GetCustomerByEmail(It.IsAny<string>()))
-            .Returns((Customer)null);
-
-        _mockAccessor
-            .Setup(a => a.AddCustomer("John", "test@email.com", "hash", 1, 1))
-            .Returns(5)
-            .Verifiable();
-
-        int result = _manager.AddCustomer(" John ", " test@email.com ", "hash", 1, 1);
-
-        Assert.AreEqual(5, result);
-        _mockAccessor.Verify(a => a.AddCustomer("John", "test@email.com", "hash", 1, 1), Times.Once);
+        _customerEngineMock = new Mock<ICustomerEngine>();
+        _customerManager = new CustomerManager(_customerEngineMock.Object);
     }
 
     [TestMethod]
-    public void GetCustomer_Throws_OnInvalidId()
+    public void AddCustomer_ReturnID()
     {
-            Assert.Throws<ArgumentException>(() => _manager.GetCustomer(0));
-        }
+        //Arrange
+        _customerEngineMock.Setup(engine => engine.AddCustomer(It.IsAny<string>(), It.IsAny<string>(),
+            It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(1);
 
-    [TestMethod]
-    public void GetCustomer_Throws_WhenNotFound()
-    {
-        _mockAccessor.Setup(a => a.GetCustomer(1)).Returns((Customer)null);
-        Assert.Throws<Exception>(() => _manager.GetCustomer(1));
+        //Act
+        int result = _customerManager.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1);
+
+        //Assert
+        Assert.AreEqual(1, result);
+        _customerEngineMock.Verify(e => e.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1), Times.Once);
     }
 
     [TestMethod]
-    public void GetCustomer_Returns_Customer_WhenFound()
+    public void CustomerAlreadyExist_Id()
     {
-        var c = new Customer { Id = 1, Name = "Bob", Email = "bob@test.com" };
-        _mockAccessor.Setup(a => a.GetCustomer(1)).Returns(c);
+        var expectedCustomer = new Customer { Id = 1, Name = "John Doe" };
+        _customerEngineMock.Setup(e => e.GetCustomer(1)).Returns(expectedCustomer);
 
-        var result = _manager.GetCustomer(1);
 
+        //Act
+        var result = _customerManager.GetCustomer(1);
+
+        //Assert
         Assert.IsNotNull(result);
-        Assert.AreEqual(1, result.Id);
-        Assert.AreEqual("Bob", result.Name);
+        Assert.AreEqual("John Doe", result.Name);
+        _customerEngineMock.Verify(e => e.GetCustomer(1), Times.Once);
     }
 
     [TestMethod]
-    public void UpdateCustomer_Throws_WhenEmailTakenByAnother()
+    public void CustomerAlreadyExist_Email()
     {
-        var existing = new Customer { Id = 1, Name = "A", Email = "a@x.com" };
-        var other = new Customer { Id = 2, Name = "B", Email = "b@x.com" };
+        var expectedCustomer = new Customer { Id = 1, Name = "John Doe", Email = "test@gmail.com" };
+        _customerEngineMock.Setup(e => e.GetCustomerByEmail("test@gmail.com")).Returns(expectedCustomer);
 
-        _mockAccessor.Setup(a => a.GetCustomer(1)).Returns(existing);
-        _mockAccessor.Setup(a => a.GetCustomerByEmail("b@x.com")).Returns(other);
+        //Act
+        var result = _customerManager.GetCustomerByEmail("test@gmail.com");
 
-        Assert.Throws<ArgumentException>(() => _manager.UpdateCustomer(1, "A", "b@x.com", "hash"));
+        //Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual("John Doe", result.Name);
+        _customerEngineMock.Verify(e => e.GetCustomerByEmail("test@gmail.com"), Times.Once);
     }
 
     [TestMethod]
-    public void UpdateCustomer_CallsAccessor_WhenValid()
+    public void UpdateCustomer_ShouldInvokeEngineUpdate()
     {
-        var existing = new Customer { Id = 1, Name = "A", Email = "a@x.com" };
+        // Act
+        _customerManager.UpdateCustomer(1, "New Name", "new@test.com", "newHash");
 
-        _mockAccessor.Setup(a => a.GetCustomer(1)).Returns(existing);
-        _mockAccessor.Setup(a => a.GetCustomerByEmail("new@x.com")).Returns((Customer)null);
-        _mockAccessor.Setup(a => a.UpdateCustomer(1, "NewName", "new@x.com", "hash")).Verifiable();
-
-        _manager.UpdateCustomer(1, " NewName ", " new@x.com ", "hash");
-
-        _mockAccessor.Verify(a => a.UpdateCustomer(1, "NewName", "new@x.com", "hash"), Times.Once);
+        // Assert
+        _customerEngineMock.Verify(e => e.UpdateCustomer(1, "New Name", "new@test.com", "newHash"), Times.Once);
     }
 
     [TestMethod]
-    public void DeleteCustomer_Throws_WhenNotFound()
+    public void DeleteCustomer_ShouldInvokeEngineDelete()
     {
-        _mockAccessor.Setup(a => a.GetCustomer(10)).Returns((Customer)null);
-        Assert.Throws<Exception>(() => _manager.DeleteCustomer(10));
-    }
+        // Act
+        _customerManager.DeleteCustomer(5);
 
-    [TestMethod]
-    public void DeleteCustomer_CallsAccessor_WhenFound()
-    {
-        var existing = new Customer { Id = 3, Name = "Del", Email = "del@x.com" };
-        _mockAccessor.Setup(a => a.GetCustomer(3)).Returns(existing);
-        _mockAccessor.Setup(a => a.DeleteCustomer(3)).Verifiable();
-
-        _manager.DeleteCustomer(3);
-
-        _mockAccessor.Verify(a => a.DeleteCustomer(3), Times.Once);
-    }
-
+        // Assert
+        _customerEngineMock.Verify(e => e.DeleteCustomer(5), Times.Once);
     }
 }
-
