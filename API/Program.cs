@@ -39,8 +39,10 @@ app.UseAuthorization();
 
 // Auth functionality
 
-app.MapPost("/auth/register", (RegisterRequest request, ICustomerManager customerManager) =>
+app.MapPost("/register", (RegisterRequest request, ICustomerManager customerManager) =>
 {
+    if (request == null) return Results.BadRequest("Request body is null");
+    Console.WriteLine($"Registering: {request.Email}");
     //A UUID would have been more prefferable here
     var existingUser = customerManager.GetCustomerByEmail(request.Email);
 
@@ -56,6 +58,9 @@ app.MapPost("/auth/register", (RegisterRequest request, ICustomerManager custome
         0, // Default CartId
         0  // Default PaymentMethodId
     );
+
+    int newId = customerManager.AddCustomer(request.Username, request.Email, request.Password, 0, 0);
+    Console.WriteLine($"New ID created: {newId}");
 
     if (newId > 0)
     {

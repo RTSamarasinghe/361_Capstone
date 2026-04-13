@@ -1,51 +1,52 @@
 ﻿using DataContracts;
+namespace Managers;
 
-public class CustomerManager : ICustomerManager
-{
-    private readonly ICustomerEngine _customerEngine;
-
-    public CustomerManager(ICustomerEngine customerEngine)
+    public class CustomerManager : ICustomerManager
     {
-        _customerEngine = customerEngine;
-    }
+        private readonly ICustomerEngine _customerEngine;
 
-    public int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId)
-    {
-        return _customerEngine.AddCustomer(name, email, passHash, cartId, paymentMethodId);
-    }
+        public CustomerManager(ICustomerEngine customerEngine)
+        {
+            _customerEngine = customerEngine;
+        }
 
-    public Customer GetCustomer(int id)
-    {
-        return _customerEngine.GetCustomer(id);
-    }
+        public int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId)
+        {
+            return _customerEngine.AddCustomer(name, email, passHash, cartId, paymentMethodId);
+        }
 
-    public Customer GetCustomerByEmail(string email)
-    {
-        return _customerEngine.GetCustomerByEmail(email);
-    }
+        public Customer GetCustomer(int id)
+        {
+            return _customerEngine.GetCustomer(id);
+        }
 
-    public List<Customer> GetAllCustomers()
-    {
-        return _customerEngine.GetAllCustomers();
-    }
+        public Customer GetCustomerByEmail(string email)
+        {
+            return _customerEngine.GetCustomerByEmail(email);
+        }
 
-    public void UpdateCustomer(int id, string name, string email, string passHash)
-    {
-        _customerEngine.UpdateCustomer(id, name, email, passHash);
-    }
+        public List<Customer> GetAllCustomers()
+        {
+            return _customerEngine.GetAllCustomers();
+        }
 
-    public void UpdateCustomerCart(int id, int cartId)
-    {
-        _customerEngine.UpdateCustomerCart(id, cartId);
-    }
+        public void UpdateCustomer(int id, string name, string email, string passHash)
+        {
+            _customerEngine.UpdateCustomer(id, name, email, passHash);
+        }
 
-    public void UpdateCustomerPaymentMethod(int id, int paymentMethodId)
-    {
-        _customerEngine.UpdateCustomerPaymentMethod(id, paymentMethodId);
-    }
+        public void UpdateCustomerCart(int id, int cartId)
+        {
+            _customerEngine.UpdateCustomerCart(id, cartId);
+        }
 
-    public void DeleteCustomer(int id)
-    {
-        _customerEngine.DeleteCustomer(id);
+        public void UpdateCustomerPaymentMethod(int id, int paymentMethodId)
+        {
+            _customerEngine.UpdateCustomerPaymentMethod(id, paymentMethodId);
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            _customerEngine.DeleteCustomer(id);
+        }
     }
-}
