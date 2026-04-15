@@ -1,142 +1,145 @@
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddOpenApi();
-builder.Services.AddScoped<ICustomerAccessor, CustomerAccesor>();
-builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
-builder.Services.AddScoped<ICustomerManager, CustomerManager>();
-
-
-var key = "super_secret_key_12345";
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(key))
-    };
-});
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 
-// Auth functionality
 
-app.MapPost("/register", (RegisterRequest request, ICustomerManager customerManager) =>
+// =====================
+// AUTH
+// =====================
+
+app.MapPost("/auth/register", (RegisterRequest request) =>
 {
-    if (request == null) return Results.BadRequest("Request body is null");
-    Console.WriteLine($"Registering: {request.Email}");
-    //A UUID would have been more prefferable here
-    var existingUser = customerManager.GetCustomerByEmail(request.Email);
-
-    if (existingUser != null)
-    {
-        return Results.Unauthorized();
-    }
-
-    int newId = customerManager.AddCustomer(
-        request.Username,
-        request.Email,
-        request.Password, // Use the hash here in production
-        0, // Default CartId
-        0  // Default PaymentMethodId
-    );
-
-    int newId = customerManager.AddCustomer(request.Username, request.Email, request.Password, 0, 0);
-    Console.WriteLine($"New ID created: {newId}");
-
-    if (newId > 0)
-    {
-        // Return 201 Created with the new ID
-        return Results.Created($"/auth/customer/{newId}", new { Id = newId, Email = request.Email });
-    }
-
-    return Results.BadRequest("Registration failed.");
-
-});
-
-public record RegisterRequest(string Username, string Email, string Password);
-
-app.MapPost("/auth/login", (LoginRequest request, ICustomerManager cutomerManager) =>
-{
-    //check if login successful
-    var user = customerManager.GetCustomerByEmail(request.Email);
-
-    //Validate user existence
-    if (user == null || user.PassHash != request.Password
-    {
-        return Results.Unauthorized();
-    })
-
-    return Results.Ok(user);
-});
-
-// A simple DTO for the request body
-public record LoginRequest(string Email, string Password);
-
-app.MapPost("/auth/me", () =>
-{
-    //check who curr user is
-    return success ? Results.Unauthorized() : Results.Ok(user);
-});
-
-// Product Functionality
-
-app.MapGet("/products", () =>
-{
+    // TODO: call CustomerManager.Register()
     return Results.Ok();
 });
 
-app.MapGet("/products/{id}", (int id) =>
+app.MapPost("/auth/login", (LoginRequest request) =>
 {
-    //var product = getProduct(id);
-    return product is null ? Results.NotFound() : Results.Ok(product);
+    // TODO: validate user + return JWT
+    return Results.Ok();
+});
+
+app.MapGet("/auth/me", () =>
+{
+    // TODO: return current user
+    return Results.Ok();
+});
+
+
+// =====================
+// PRODUCTS
+// =====================
+
+app.MapGet("/products", () =>
+{
+    // TODO: return all products
+    return Results.Ok();
+});
+
+app.MapGet("/products/{id:int}", (int id) =>
+{
+    // TODO: get product by id
+    return Results.Ok();
 });
 
 app.MapPost("/products", (Product product) =>
 {
-    //Add(product);
+    // TODO: create product
     return Results.Created($"/products/{product.Id}", product);
 });
 
-// Cart Functionality
-
-app.MapGet("/cart", () =>
+app.MapPut("/products/{id:int}", (int id, Product product) =>
 {
+    // TODO: update product
     return Results.Ok();
 });
 
-app.MapPost("/cart/items", (int CartItemId) =>
+app.MapDelete("/products/{id:int}", (int id) =>
 {
-    //AddItem(item);
-    return Results.Ok();
-});
-
-app.MapDelete("/cart", () =>
-{
-    //ClearCart();
+    // TODO: delete product
     return Results.NoContent();
 });
 
 
+// =====================
+// CART
+// =====================
+
+app.MapGet("/cart", () =>
+{
+    // TODO: get current user's cart
+    return Results.Ok();
+});
+
+app.MapPost("/cart/items", (CartItemRequest request) =>
+{
+    // TODO: add item to cart
+    return Results.Ok();
+});
+
+app.MapPut("/cart/items/{itemId:int}", (int itemId, CartItemRequest request) =>
+{
+    // TODO: update cart item
+    return Results.Ok();
+});
+
+app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
+{
+    // TODO: remove item from cart
+    return Results.NoContent();
+});
+
+app.MapDelete("/cart", () =>
+{
+    // TODO: clear cart
+    return Results.NoContent();
+});
+
+
+// =====================
+// ORDERS
+// =====================
+
+app.MapPost("/orders", () =>
+{
+    // TODO: checkout cart → create order
+    return Results.Ok();
+});
+
+app.MapGet("/orders", () =>
+{
+    // TODO: list user orders
+    return Results.Ok();
+});
+
+app.MapGet("/orders/{id:int}", (int id) =>
+{
+    // TODO: get order details
+    return Results.Ok();
+});
 
 
 app.Run();
 
+
+// =====================
+// DTOs (minimal)
+// =====================
+
+public record RegisterRequest(string Username, string Email, string Password);
+
+public record LoginRequest(string Email, string Password);
+
+public record Product(int Id, string Name);
+
+public record CartItemRequest(int ProductId, int Quantity);

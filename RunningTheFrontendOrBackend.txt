@@ -1,0 +1,15 @@
+To run the frontend:
+open a terminal
+while in \361_Capstone run "cd frontend"
+then "npm install" (if its your first time running the frontend)
+finally "npm run dev" to run it
+then paste "http://localhost:5173/" in your browser
+the localhost may be different so copy the link you are given in the terminal
+
+To run the backend:
+open another terminal (do not stop the frontend)
+while in \361_Capstone run "cd API"
+then "dotnet build" to build it
+then "dotnet run" to run it
+then paste "http://localhost:5208/swagger" in your browser
+the localhost may be different so copy the link you are given in the terminal
