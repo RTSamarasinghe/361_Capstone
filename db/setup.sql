@@ -12,7 +12,7 @@ CREATE TABLE Category (
 );
 
 CREATE TABLE PaymentMethod (
-    ID             INT PRIMARY KEY IDENTITY NOT NULL,
+    Id             INT PRIMARY KEY IDENTITY NOT NULL,
     CardNumberHash NVARCHAR(255) NOT NULL,
     ExpirationDate DATETIME NOT NULL,
     CardholderName NVARCHAR(100) NOT NULL,
