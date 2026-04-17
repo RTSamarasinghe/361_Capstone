@@ -52,24 +52,6 @@ app.MapGet("/products/{id:int}", (int id) =>
     return Results.Ok();
 });
 
-app.MapPost("/products", (Product product) =>
-{
-    // TODO: create product
-    return Results.Created($"/products/{product.Id}", product);
-});
-
-app.MapPut("/products/{id:int}", (int id, Product product) =>
-{
-    // TODO: update product
-    return Results.Ok();
-});
-
-app.MapDelete("/products/{id:int}", (int id) =>
-{
-    // TODO: delete product
-    return Results.NoContent();
-});
-
 
 // =====================
 // CART
@@ -87,21 +69,9 @@ app.MapPost("/cart/items", (CartItemRequest request) =>
     return Results.Ok();
 });
 
-app.MapPut("/cart/items/{itemId:int}", (int itemId, CartItemRequest request) =>
-{
-    // TODO: update cart item
-    return Results.Ok();
-});
-
 app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
 {
     // TODO: remove item from cart
-    return Results.NoContent();
-});
-
-app.MapDelete("/cart", () =>
-{
-    // TODO: clear cart
     return Results.NoContent();
 });
 
