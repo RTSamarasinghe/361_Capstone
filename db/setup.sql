@@ -78,7 +78,7 @@ CREATE TABLE Customer (
     Created         DATETIME DEFAULT GETDATE(),
     PassHash        NVARCHAR(100) NOT NULL,
     UserCart        INT NOT NULL,
-    PaymentMethodId INT NOT NULL,
+    PaymentMethodId INT,
     FOREIGN KEY (UserCart) REFERENCES Cart(Id),
     FOREIGN KEY (PaymentMethodId) REFERENCES PaymentMethod(Id)
 );
