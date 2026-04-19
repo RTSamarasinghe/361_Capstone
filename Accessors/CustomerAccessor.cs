@@ -18,7 +18,7 @@ public class CustomerAccessor : ICustomerAccessor
         cmd.Parameters.AddWithValue("@Email", email);
         cmd.Parameters.AddWithValue("@PassHash", passHash);
         cmd.Parameters.AddWithValue("@CartId", cartId);
-        cmd.Parameters.AddWithValue("@PaymentMethodId", paymentMethodId);
+        cmd.Parameters.AddWithValue("@PaymentMethodId", (object)paymentMethodId ?? DBNull.Value);
 
         conn.Open();
         return (int)cmd.ExecuteScalar();
