@@ -7,5 +7,5 @@ public class Customer
     public DateTime Created { get; set; }
     public string PassHash { get; set; }
     public int UserCart { get; set; }
-    public int PaymentMethodId { get; set; }
+    public int? PaymentMethodId { get; set; }
 }
