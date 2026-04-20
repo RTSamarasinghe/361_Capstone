@@ -13,12 +13,12 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/Cart" element={<Cart />} />
-          <Route path="/Checkout" element={<Checkout />} />
-          <Route path="/Product" element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/products/:id" element={<Product />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
