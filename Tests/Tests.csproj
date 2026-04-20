@@ -12,10 +12,10 @@
     <PackageReference Include="MSTest" Version="4.2.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="4.2.1" />
     <PackageReference Include="MSTest.TestFramework" Version="4.2.1" />
-	 <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
-	 <ProjectReference Include="..\Engines\Engines.csproj" />
-	 <ProjectReference Include="..\Accessors\Accessors.csproj" />
-     <ProjectReference Include="..\Managers\Managers.csproj" />
+	  <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
+	  <ProjectReference Include="..\Engines\Engines.csproj" />
+	  <ProjectReference Include="..\Accessors\Accessors.csproj" />
+    <ProjectReference Include="..\Managers\Managers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
