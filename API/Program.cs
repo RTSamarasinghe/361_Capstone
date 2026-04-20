@@ -12,6 +12,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// =====================
+// STATIC FILES (PROFILE PICTURES)
+// =====================
+
+var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+Directory.CreateDirectory(uploadDir); // ensure it exists
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadDir),
+    RequestPath = "/Images"
+});
 
 // =====================
 // AUTH
