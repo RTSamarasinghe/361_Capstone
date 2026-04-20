@@ -26,7 +26,7 @@ VALUES('Shark Rocket', 'A lightweight vacuum cleaner with powerful suction and v
 GO
 
 INSERT INTO Sale (StartDate, EndDate, DiscountAmount, DiscountPercent)
-VALUES ('2024-01-01', '2050-04-20', 10.00, NULL);
+VALUES ('2024-01-01', '2050-04-20', 1.00, NULL);
 INSERT INTO Sale (StartDate, EndDate, DiscountAmount, DiscountPercent)
 VALUES ('2025-04-01', '2026-06-15', NULL, 15.00);
 GO
