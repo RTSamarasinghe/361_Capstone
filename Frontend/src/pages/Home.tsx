@@ -6,6 +6,7 @@ import { mockProducts } from "../temp/mockProducts";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // useEffect(() => {
   //   api
@@ -18,11 +19,24 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
+    // Display Order Placed
+    if (localStorage.getItem("orderSuccess")) {
+      setShowSuccess(true);
+      localStorage.removeItem("orderSuccess");
+
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+    // Add Products
     setProducts(mockProducts);
   }, []);
 
   return (
     <div className="min-h-screen">
+      {showSuccess && (
+        <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
+          Order placed successfully!
+        </div>
+      )}
       {/* Page Header */}
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-gray-800 mb-2">
