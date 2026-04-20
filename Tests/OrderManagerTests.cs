@@ -1,7 +1,7 @@
 using DataContracts;
 using Moq;
 
-namespace CustomerTest;
+namespace OrderTest;
 
 [TestClass]
 public class OrderManagerTests
