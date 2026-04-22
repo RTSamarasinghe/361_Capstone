@@ -1,6 +1,6 @@
 ﻿using DataContracts;
 
-public class CheckoutManager
+public class CheckoutManager : ICheckoutManager
 {
 	private readonly ICheckoutEngine _checkoutEngine;
 
