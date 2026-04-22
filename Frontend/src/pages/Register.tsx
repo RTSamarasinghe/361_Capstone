@@ -13,10 +13,11 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      const res = await api.post("/register", { username, password });
+      const res = await api.post("auth/register", { username, email, password });
       console.log("User registered:", res.data);
       navigate("/");
     } catch (err: any) {
+      alert("Something went wrong on our end. Please try again later.");
       console.error(err);
     }
   }
