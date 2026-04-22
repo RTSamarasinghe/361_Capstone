@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
-builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>();
+builder.Services.AddScoped<ICustomerAccessor, CustomerAccessor>();
 builder.Services.AddScoped<CustomerManager>();
 
 builder.Services.AddCors(options =>
@@ -37,9 +37,10 @@ app.UseCors("frontend");
 // =====================
 // STATIC FILES (PROFILE PICTURES)
 // =====================
+var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "..", "Images");
+uploadDir = Path.GetFullPath(uploadDir); // normalize path
 
-var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-Directory.CreateDirectory(uploadDir); // ensure it exists
+Directory.CreateDirectory(uploadDir);
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -57,7 +58,7 @@ app.MapPost("auth/register", (RegisterRequest request, CustomerManager customerM
         request.Username,
         request.Email,
         request.Password);
-    return Results.Created($"/customers/{newCustomerId}", new {id = newCustomerId});
+    return Results.Created($"/customers/{newCustomerId}", new { id = newCustomerId });
 });
 
 app.MapPost("/auth/login", (LoginRequest request) =>
