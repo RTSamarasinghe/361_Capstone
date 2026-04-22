@@ -61,6 +61,7 @@ using Engines;
 			_paymentMethodEngine.GetPaymentMethod(paymentMethodId);
 
 			_paymentEngine.AddPayment(orderId, order.TotalAmount, DateTime.Now, paymentMethodId);
+			_orderEngine.UpdateOrderStatus(orderId, "Purchased");
 		}
 
 		private decimal ApplySales(Product product)
