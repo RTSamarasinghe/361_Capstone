@@ -68,21 +68,15 @@ app.UseStaticFiles(new StaticFileOptions
 // AUTH
 // =====================
 
-app.MapPost("/auth/register", (RegisterRequest request, CustomerManager customerManager, CartManager cartManager) =>
+app.MapPost("/auth/register", (RegisterRequest request, CustomerManager customerManager) =>
 {
     try
     {
-        // Temporary workaround:
-        // create a cart automatically
-        int cartId = cartManager.AddCart();
-        // Your CustomerEngine currently REQUIRES paymentMethodId > 0.
-        int paymentMethodId = 1;
         int newCustomerId = customerManager.AddCustomer(
             request.Username,
             request.Email,
-            request.Password,
-            cartId,
-            paymentMethodId);
+            request.Password);
+
         return Results.Created($"/customers/{newCustomerId}", new { id = newCustomerId });
     }
     catch (Exception ex)
@@ -91,16 +85,50 @@ app.MapPost("/auth/register", (RegisterRequest request, CustomerManager customer
     }
 });
 
-app.MapPost("/auth/login", (LoginRequest request) =>
+app.MapPost("/auth/login", (LoginRequest request, CustomerManager customerManager) =>
 {
-    // TODO: validate user + return JWT
-    return Results.Ok();
+    try
+    {
+        Customer customer = customerManager.GetCustomerByEmail(request.Email);
+
+        if (customer.PassHash != request.Password)
+        {
+            return Results.Unauthorized();
+        }
+
+        return Results.Ok(new
+        {
+            id = customer.Id,
+            name = customer.Name,
+            email = customer.Email,
+            cartId = customer.UserCart
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/auth/me", () =>
+app.MapGet("/auth/me", (int customerId, CustomerManager customerManager) =>
 {
-    // TODO: return current user
-    return Results.Ok();
+    try
+    {
+        Customer customer = customerManager.GetCustomer(customerId);
+
+        return Results.Ok(new
+        {
+            id = customer.Id,
+            name = customer.Name,
+            email = customer.Email,
+            cartId = customer.UserCart,
+            paymentMethodId = customer.PaymentMethodId
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -108,16 +136,30 @@ app.MapGet("/auth/me", () =>
 // PRODUCTS
 // =====================
 
-app.MapGet("/products", () =>
+app.MapGet("/products", (ProductManager productManager) =>
 {
-    // TODO: return all products
-    return Results.Ok();
+    try
+    {
+        List<Product> products = productManager.GetAllProducts();
+        return Results.Ok(products);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/products/{id:int}", (int id) =>
+app.MapGet("/products/{id:int}", (int id, ProductManager productManager) =>
 {
-    // TODO: get product by id
-    return Results.Ok();
+    try
+    {
+        Product product = productManager.GetProduct(id);
+        return Results.Ok(product);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -125,22 +167,50 @@ app.MapGet("/products/{id:int}", (int id) =>
 // CART
 // =====================
 
-app.MapGet("/cart", () =>
+app.MapGet("/cart", (int customerId, CustomerManager customerManager, CartManager cartManager) =>
 {
-    // TODO: get current user's cart
-    return Results.Ok();
+    try
+    {
+        Customer customer = customerManager.GetCustomer(customerId);
+        Cart cart = cartManager.GetCart(customer.UserCart);
+        List<CartItem> items = cartManager.GetCartItems(customer.UserCart);
+
+        return Results.Ok(new
+        {
+            cart.Id,
+            Items = items
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapPost("/cart/items", (CartItemRequest request) =>
+app.MapPost("/cart/items", (CartItemRequest request, CartManager cartManager) =>
 {
-    // TODO: add item to cart
-    return Results.Ok();
+    try
+    {
+        int cartItemId = cartManager.AddCartItem(request.CartId, request.ProductId, request.Quantity);
+        return Results.Ok(new { id = cartItemId });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
+app.MapDelete("/cart/items/{itemId:int}", (int itemId, CartManager cartManager) =>
 {
-    // TODO: remove item from cart
-    return Results.NoContent();
+    try
+    {
+        cartManager.RemoveCartItem(itemId);
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -148,22 +218,49 @@ app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
 // ORDERS
 // =====================
 
-app.MapPost("/orders", () =>
+app.MapPost("/orders", (CheckoutRequest request, OrderManager orderManager) =>
 {
-    // TODO: checkout cart → create order
-    return Results.Ok();
+    try
+    {
+        int orderId = orderManager.AddOrder(
+            request.CustomerId,
+            request.TotalAmount,
+            "Pending",
+            request.ShippingAddressId,
+            request.BillingAddressId);
+
+        return Results.Created($"/orders/{orderId}", new { id = orderId });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/orders", () =>
+app.MapGet("/orders", (int customerId, OrderManager orderManager) =>
 {
-    // TODO: list user orders
-    return Results.Ok();
+    try
+    {
+        List<Order> orders = orderManager.GetOrdersByCustomer(customerId);
+        return Results.Ok(orders);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/orders/{id:int}", (int id) =>
+app.MapGet("/orders/{id:int}", (int id, OrderManager orderManager) =>
 {
-    // TODO: get order details
-    return Results.Ok();
+    try
+    {
+        Order order = orderManager.GetOrder(id);
+        return Results.Ok(order);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 

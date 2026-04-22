@@ -11,10 +11,10 @@ namespace Managers;
             _customerEngine = customerEngine;
         }
 
-        public int AddCustomer(string name, string email, string passHash, int cartID, int paymentMethodId)
+        public int AddCustomer(string name, string email, string passHash)
         {
             
-            return _customerEngine.AddCustomer(name, email, passHash, cartID, paymentMethodId);
+            return _customerEngine.AddCustomer(name, email, passHash);
         }
 
         public Customer GetCustomer(int id)

@@ -10,7 +10,7 @@ public class CustomerEngine : ICustomerEngine
         _customerAccessor = customerAccessor;
     }
 
-    public int AddCustomer(string name, string email, string passHash, int cartID, int paymentMethodId)
+    public int AddCustomer(string name, string email, string passHash)
     {
         ValidateCustomerInput(name, email, passHash);
 
