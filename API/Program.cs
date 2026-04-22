@@ -10,7 +10,20 @@ builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
 builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>();
 builder.Services.AddScoped<CustomerManager>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173") // Vite
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -19,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("frontend");
 
 // =====================
 // STATIC FILES (PROFILE PICTURES)

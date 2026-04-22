@@ -1,46 +1,54 @@
 import { useEffect, useState } from "react";
-import api from "../api.ts";
-import { type Product } from "../types/Product.ts";
-import { useNavigate } from "react-router-dom";
+import api from "../api";
+import { type Product } from "../types/Product";
+import ProductCard from "../components/ProductCard";
+import { mockProducts } from "../temp/mockProducts";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-  const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // useEffect(() => {
+  //   api
+  //     .get("/products")
+  //     .then((res) => {
+  //       const data = res.data;
+  //       setProducts(Array.isArray(data) ? data : (data.products ?? []));
+  //     })
+  //     .catch(console.error);
+  // }, []);
 
   useEffect(() => {
-    api
-      .get("/products")
-      .then((res) => {
-        const data = res.data;
-        setProducts(Array.isArray(data) ? data : (data.products ?? []));
-      })
-      .catch(console.error);
+    // Display Order Placed
+    if (localStorage.getItem("orderSuccess")) {
+      setShowSuccess(true);
+      localStorage.removeItem("orderSuccess");
+
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+    // Add Products
+    setProducts(mockProducts);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="min-h-screen">
+      {showSuccess && (
+        <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
+          Order placed successfully!
+        </div>
+      )}
+      {/* Page Header */}
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          Featured Products
+        </h1>
+        <p className="text-gray-600">Browse our latest collection.</p>
+      </div>
+
+      {/* Product Grid */}
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition"
-          >
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="h-48 w-full object-cover"
-            />
-
-            <div className="p-4">
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-
-              <p className="text-gray-600 mt-1">${product.price.toFixed(2)}</p>
-
-              <button className="mt-4 w-full bg-black text-white py-2 rounded-xl hover:bg-gray-800 transition">
-                Add to Cart
-              </button>
-            </div>
-          </div>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>
