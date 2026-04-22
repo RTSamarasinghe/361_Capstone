@@ -20,8 +20,7 @@ export default function Product() {
       {/* Image */}
       <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
         <img
-          //src={`http://localhost:5208/Images/${product.imageUrl}`}
-          src={product.imageUrl}
+          src={`http://localhost:5208/${product.imageUrl}`}
           alt={product.name}
           className="w-full h-full object-cover"
         />
