@@ -1,4 +1,6 @@
 using DataContracts;
+using Engines;
+
 	public class CheckoutEngine : ICheckoutEngine
 	{
 		private readonly ICartItemEngine _cartItemEngine;
