@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 public class CartAccessor : ICartAccessor
 {
     private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
     public int AddCart()
     {

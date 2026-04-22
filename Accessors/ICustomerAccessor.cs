@@ -1,8 +1,8 @@
 using DataContracts;
-
+namespace Accessors;
 public interface ICustomerAccessor
 {
-    int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId);
+    int AddCustomer(string name, string email, string passHash);
     Customer GetCustomer(int id);
     Customer GetCustomerByEmail(string email);
     List<Customer> GetAllCustomers();

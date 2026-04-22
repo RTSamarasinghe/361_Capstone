@@ -1,24 +1,27 @@
 using DataContracts;
 using Microsoft.Data.SqlClient;
+namespace Accessors;
 
 public class CustomerAccessor : ICustomerAccessor
 {
     private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
-    public int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId)
+    public int AddCustomer(string name, string email, string passHash)
     {
+
+        CartAccessor cart = new CartAccessor();
+        int cartId = cart.AddCart();
         using SqlConnection conn = new SqlConnection(_connectionString);
         using SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO Customer (Name, Email, PassHash, UserCart, PaymentMethodId)
+            INSERT INTO Customer (Name, Email, PassHash, UserCart)
             OUTPUT INSERTED.Id
-            VALUES (@Name, @Email, @PassHash, @CartId, @PaymentMethodId)", conn);
+            VALUES (@Name, @Email, @PassHash, @CartId)", conn);
 
         cmd.Parameters.AddWithValue("@Name", name);
         cmd.Parameters.AddWithValue("@Email", email);
         cmd.Parameters.AddWithValue("@PassHash", passHash);
         cmd.Parameters.AddWithValue("@CartId", cartId);
-        cmd.Parameters.AddWithValue("@PaymentMethodId", (object)paymentMethodId ?? DBNull.Value);
 
         conn.Open();
         return (int)cmd.ExecuteScalar();

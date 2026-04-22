@@ -1,6 +1,14 @@
+using Microsoft.Extensions.FileProviders;
+using Managers;
+using Engines;
+using Accessors;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
+builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>();
+builder.Services.AddScoped<CustomerManager>();
 
 var app = builder.Build();
 
@@ -29,10 +37,13 @@ app.UseStaticFiles(new StaticFileOptions
 // AUTH
 // =====================
 
-app.MapPost("/auth/register", (RegisterRequest request) =>
+app.MapPost("auth/register", (RegisterRequest request, CustomerManager customerManager) =>
 {
-    // TODO: call CustomerManager.Register()
-    return Results.Ok();
+    int newCustomerId = customerManager.AddCustomer(
+        request.Username,
+        request.Email,
+        request.Password);
+    return Results.Created($"/customers/{newCustomerId}", new {id = newCustomerId});
 });
 
 app.MapPost("/auth/login", (LoginRequest request) =>

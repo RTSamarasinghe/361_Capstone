@@ -1,4 +1,5 @@
 ﻿using DataContracts;
+using Engines;
 namespace Managers;
 
     public class CustomerManager : ICustomerManager
@@ -10,9 +11,10 @@ namespace Managers;
             _customerEngine = customerEngine;
         }
 
-        public int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId)
+        public int AddCustomer(string name, string email, string passHash)
         {
-            return _customerEngine.AddCustomer(name, email, passHash, cartId, paymentMethodId);
+            
+            return _customerEngine.AddCustomer(name, email, passHash);
         }
 
         public Customer GetCustomer(int id)

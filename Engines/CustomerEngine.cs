@@ -1,5 +1,6 @@
 using DataContracts;
-
+using Accessors;
+namespace Engines;
 public class CustomerEngine : ICustomerEngine
 {
     private readonly ICustomerAccessor _customerAccessor;
@@ -9,19 +10,10 @@ public class CustomerEngine : ICustomerEngine
         _customerAccessor = customerAccessor;
     }
 
-    public int AddCustomer(string name, string email, string passHash, int cartId, int paymentMethodId)
+    public int AddCustomer(string name, string email, string passHash)
     {
         ValidateCustomerInput(name, email, passHash);
 
-        if (cartId <= 0)
-        {
-            throw new ArgumentException("Cart id must be greater than 0.");
-        }
-
-        if (paymentMethodId <= 0)
-        {
-            throw new ArgumentException("Payment method id must be greater than 0.");
-        }
 
         Customer existingCustomer = _customerAccessor.GetCustomerByEmail(email.Trim());
         if (existingCustomer != null)
@@ -32,9 +24,7 @@ public class CustomerEngine : ICustomerEngine
         return _customerAccessor.AddCustomer(
             name.Trim(),
             email.Trim(),
-            passHash,
-            cartId,
-            paymentMethodId);
+            passHash);
     }
 
     public Customer GetCustomer(int id)
