@@ -2,7 +2,7 @@ using DataContracts;
 
 public interface ICustomerManager
 {
-    int AddCustomer(string name, string email, string passHash);
+    int AddCustomer(string name, string email, string passHash, int cartID, int paymentMethodId);
     Customer GetCustomer(int id);
     Customer GetCustomerByEmail(string email);
     List<Customer> GetAllCustomers();

@@ -2,13 +2,29 @@ using Microsoft.Extensions.FileProviders;
 using Managers;
 using Engines;
 using Accessors;
+using DataContracts;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
 builder.Services.AddScoped<ICustomerAccessor, CustomerAccessor>();
 builder.Services.AddScoped<CustomerManager>();
+
+builder.Services.AddScoped<IProductEngine, ProductEngine>();
+builder.Services.AddScoped<IProductAccessor, ProductAccessor>();
+builder.Services.AddScoped<ProductManager>();
+
+builder.Services.AddScoped<IOrderEngine, OrderEngine>();
+builder.Services.AddScoped<IOrderAccessor, OrderAccessor>();
+builder.Services.AddScoped<OrderManager>();
+
+builder.Services.AddScoped<ICartEngine, CartEngine>();
+builder.Services.AddScoped<ICartAccessor, CartAccessor>();
+builder.Services.AddScoped<ICartItemAccessor, CartItemAccessor>();
+builder.Services.AddScoped<CartManager>();
 
 builder.Services.AddCors(options =>
 {
@@ -52,13 +68,27 @@ app.UseStaticFiles(new StaticFileOptions
 // AUTH
 // =====================
 
-app.MapPost("auth/register", (RegisterRequest request, CustomerManager customerManager) =>
+app.MapPost("/auth/register", (RegisterRequest request, CustomerManager customerManager, CartManager cartManager) =>
 {
-    int newCustomerId = customerManager.AddCustomer(
-        request.Username,
-        request.Email,
-        request.Password);
-    return Results.Created($"/customers/{newCustomerId}", new { id = newCustomerId });
+    try
+    {
+        // Temporary workaround:
+        // create a cart automatically
+        int cartId = cartManager.AddCart();
+        // Your CustomerEngine currently REQUIRES paymentMethodId > 0.
+        int paymentMethodId = 1;
+        int newCustomerId = customerManager.AddCustomer(
+            request.Username,
+            request.Email,
+            request.Password,
+            cartId,
+            paymentMethodId);
+        return Results.Created($"/customers/{newCustomerId}", new { id = newCustomerId });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 app.MapPost("/auth/login", (LoginRequest request) =>
@@ -148,6 +178,6 @@ public record RegisterRequest(string Username, string Email, string Password);
 
 public record LoginRequest(string Email, string Password);
 
-public record Product(int Id, string Name);
+public record CartItemRequest(int CartId, int ProductId, int Quantity);
 
-public record CartItemRequest(int ProductId, int Quantity);
+public record CheckoutRequest(int CustomerId, decimal TotalAmount, int ShippingAddressId, int BillingAddressId);
