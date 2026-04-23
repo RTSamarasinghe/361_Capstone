@@ -3,14 +3,18 @@ using Microsoft.Data.SqlClient;
 namespace Accessors;
 
 public class CustomerAccessor : ICustomerAccessor
+
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+    private readonly string _connectionString;
+    public CustomerAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddCustomer(string name, string email, string passHash)
     {
 
-        CartAccessor cart = new CartAccessor();
+        CartAccessor cart = new CartAccessor(_connectionString);
         int cartId = cart.AddCart();
         using SqlConnection conn = new SqlConnection(_connectionString);
         using SqlCommand cmd = new SqlCommand(@"
@@ -160,7 +164,7 @@ public class CustomerAccessor : ICustomerAccessor
             Created         = (DateTime)reader["Created"],
             PassHash        = (string)reader["PassHash"],
             UserCart        = (int)reader["UserCart"],
-            PaymentMethodId = (int)reader["PaymentMethodId"]
+            PaymentMethodId = reader["PaymentMethodId"] as int?
         };
     }
 }

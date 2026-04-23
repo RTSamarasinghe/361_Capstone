@@ -3,8 +3,11 @@ using Microsoft.Data.SqlClient;
 
 public class CartAccessor : ICartAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+    private readonly string _connectionString;
+    public CartAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddCart()
     {

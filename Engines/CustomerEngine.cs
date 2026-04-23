@@ -1,20 +1,25 @@
 using DataContracts;
 using Accessors;
+using Microsoft.AspNetCore.Identity;
 namespace Engines;
 public class CustomerEngine : ICustomerEngine
 {
     private readonly ICustomerAccessor _customerAccessor;
+    private readonly IPasswordHasher<Customer> _hasher;
+    private readonly IAuthEngine _authEngine;
 
-    public CustomerEngine(ICustomerAccessor customerAccessor)
+    public CustomerEngine(ICustomerAccessor customerAccessor, IPasswordHasher<Customer> hasher, IAuthEngine authEngine)
     {
         _customerAccessor = customerAccessor;
+        _hasher = hasher;
+        _authEngine = authEngine;
     }
 
-    public int AddCustomer(string name, string email, string passHash)
+    public int AddCustomer(string name, string email, string rawPassword)
     {
-        ValidateCustomerInput(name, email, passHash);
+        ValidateCustomerInput(name, email, rawPassword);
 
-
+        string hashedPassword = _hasher.HashPassword(new Customer(), rawPassword);
         Customer existingCustomer = _customerAccessor.GetCustomerByEmail(email.Trim());
         if (existingCustomer != null)
         {
@@ -24,7 +29,7 @@ public class CustomerEngine : ICustomerEngine
         return _customerAccessor.AddCustomer(
             name.Trim(),
             email.Trim(),
-            passHash);
+            hashedPassword);
     }
 
     public Customer GetCustomer(int id)
@@ -42,6 +47,20 @@ public class CustomerEngine : ICustomerEngine
         }
 
         return customer;
+    }
+
+    public string Login(string email, string password)
+    {
+        var customer = _customerAccessor.GetCustomerByEmail(email);
+
+        if (customer == null)
+            throw new ArgumentException("Invalid credentials");
+
+        var result = _hasher.VerifyHashedPassword(customer, customer.PassHash, password);
+        if (result != PasswordVerificationResult.Success)
+            throw new ArgumentException("Invalid credentials");
+
+        return _authEngine.GenerateJwtToken(customer.Id, customer.Email);
     }
 
     public Customer GetCustomerByEmail(string email)
@@ -164,5 +183,10 @@ public class CustomerEngine : ICustomerEngine
         {
             throw new ArgumentException("Password hash cannot be empty.");
         }
+    }
+
+    public string HashPassword(string password)
+    {
+        return _hasher.HashPassword(null, password);
     }
 }

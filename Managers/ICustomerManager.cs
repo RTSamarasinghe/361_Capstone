@@ -10,4 +10,6 @@ public interface ICustomerManager
     void UpdateCustomerCart(int id, int cartId);
     void UpdateCustomerPaymentMethod(int id, int paymentMethodId);
     void DeleteCustomer(int id);
+
+    string Login(string username, string password);
 }

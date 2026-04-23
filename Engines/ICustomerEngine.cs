@@ -10,4 +10,8 @@ public interface ICustomerEngine
     void UpdateCustomerCart(int id, int cartId);
     void UpdateCustomerPaymentMethod(int id, int paymentMethodId);
     void DeleteCustomer(int id);
+
+    string HashPassword(string password);
+
+    string Login(string username, string password);
 }

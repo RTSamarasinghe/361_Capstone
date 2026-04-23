@@ -4,14 +4,14 @@ import api from "../api";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
     try {
-      const res = await api.post("auth/login", { username, password });
+      const res = await api.post("auth/login", { email, password });
 
       localStorage.setItem("token", res.data.access_token);
       console.log("Logged in token:", res.data.access_token);
@@ -33,9 +33,9 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />

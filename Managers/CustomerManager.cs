@@ -17,7 +17,12 @@ namespace Managers;
             return _customerEngine.AddCustomer(name, email, passHash);
         }
 
-        public Customer GetCustomer(int id)
+        public string Login(string email, string password)
+        {
+            return _customerEngine.Login(email, password);
+        }
+
+    public Customer GetCustomer(int id)
         {
             return _customerEngine.GetCustomer(id);
         }

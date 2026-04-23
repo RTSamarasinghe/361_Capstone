@@ -1,15 +1,48 @@
-using Microsoft.Extensions.FileProviders;
-using Managers;
-using Engines;
 using Accessors;
+using Engines;
+using Managers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using DataContracts;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var key = "this_is_a_very_long_and_secure_secret_key_32_chars!!"; //DevOnly
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
-builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>();
+builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>(sp => new CustomerAccessor(connectionString));
 builder.Services.AddScoped<CustomerManager>();
+builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
+builder.Services.AddScoped<IAuthEngine, AuthEngine>();
 
+
+/************ JWT AUTH CONFIGURATION ************/
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+    };
+});
+builder.Services.AddAuthorization();
+
+/************ CORS CONFIGURATION ************/
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("frontend",
@@ -33,6 +66,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("frontend");
+app.UseAuthentication();
+app.UseAuthorization();
 
 // =====================
 // STATIC FILES (PROFILE PICTURES)
@@ -53,17 +88,44 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapPost("auth/register", (RegisterRequest request, CustomerManager customerManager) =>
 {
-    int newCustomerId = customerManager.AddCustomer(
-        request.Username,
-        request.Email,
-        request.Password);
-    return Results.Created($"/customers/{newCustomerId}", new {id = newCustomerId});
+    try
+    {
+        int newCustomerId = customerManager.AddCustomer(
+            request.Username,
+            request.Email,
+            request.Password);
+        return Results.Created($"/customers/{newCustomerId}", new { id = newCustomerId });
+    }
+    catch (ArgumentException ex)
+    {
+        // If the argument exception indicates a duplicate email, return 409 Conflict
+        if (ex.Message != null && ex.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase))
+            return Results.Conflict(new { error = ex.Message });
+
+        return Results.BadRequest(new { error = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
 });
 
-app.MapPost("/auth/login", (LoginRequest request) =>
+app.MapPost("auth/login", (LoginRequest request, CustomerManager customerManager) =>
 {
-    // TODO: validate user + return JWT
-    return Results.Ok();
+    try
+    {
+        var token = customerManager.Login(request.Email, request.Password);
+        return Results.Ok(new { message = "Login Successful", token });
+    }
+    catch (ArgumentException)
+    {
+        // Invalid credentials -> 401 Unauthorized
+        return Results.Unauthorized();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
 });
 
 app.MapGet("/auth/me", () =>
