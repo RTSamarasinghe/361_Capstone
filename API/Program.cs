@@ -1,5 +1,4 @@
 using Accessors;
-
 using Engines;
 using Managers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -55,7 +54,7 @@ builder.Services.AddScoped<IOrderAccessor, OrderAccessor>();
 builder.Services.AddScoped<OrderManager>();
 
 builder.Services.AddScoped<ICartEngine, CartEngine>();
-builder.Services.AddScoped<ICartAccessor, CartAccessor>();
+builder.Services.AddScoped<ICartAccessor, CartAccessor>(sp => new CartAccessor(connectionString));
 builder.Services.AddScoped<ICartItemAccessor, CartItemAccessor>();
 builder.Services.AddScoped<CartManager>();
 
