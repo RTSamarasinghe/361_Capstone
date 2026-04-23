@@ -5,15 +5,19 @@ import { useNavigate } from "react-router-dom";
 export default function Register() {
   const navigate = useNavigate();
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
     try {
-      const res = await api.post("auth/register", { username, email, password });
+      const res = await api.post("auth/register", {
+        username,
+        email,
+        password,
+      });
       console.log("User registered:", res.data);
       navigate("/");
     } catch (err: any) {
@@ -37,7 +41,7 @@ export default function Register() {
             onChange={(e) => setUsername(e.target.value)}
             required
             className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
+          />
 
           <input
             type="email"

@@ -1,4 +1,5 @@
 using Accessors;
+
 using Engines;
 using Managers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,14 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var key = "this_is_a_very_long_and_secure_secret_key_32_chars!!"; //DevOnly
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
 builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>(sp => new CustomerAccessor(connectionString));
 builder.Services.AddScoped<CustomerManager>();
 builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
 builder.Services.AddScoped<IAuthEngine, AuthEngine>();
+
 
 
 /************ JWT AUTH CONFIGURATION ************/
@@ -43,6 +45,21 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 /************ CORS CONFIGURATION ************/
+
+builder.Services.AddScoped<IProductEngine, ProductEngine>();
+builder.Services.AddScoped<IProductAccessor, ProductAccessor>();
+builder.Services.AddScoped<ProductManager>();
+
+builder.Services.AddScoped<IOrderEngine, OrderEngine>();
+builder.Services.AddScoped<IOrderAccessor, OrderAccessor>();
+builder.Services.AddScoped<OrderManager>();
+
+builder.Services.AddScoped<ICartEngine, CartEngine>();
+builder.Services.AddScoped<ICartAccessor, CartAccessor>();
+builder.Services.AddScoped<ICartItemAccessor, CartItemAccessor>();
+builder.Services.AddScoped<CartManager>();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("frontend",
@@ -72,9 +89,10 @@ app.UseAuthorization();
 // =====================
 // STATIC FILES (PROFILE PICTURES)
 // =====================
+var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "..", "Images");
+uploadDir = Path.GetFullPath(uploadDir); // normalize path
 
-var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-Directory.CreateDirectory(uploadDir); // ensure it exists
+Directory.CreateDirectory(uploadDir);
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -86,7 +104,7 @@ app.UseStaticFiles(new StaticFileOptions
 // AUTH
 // =====================
 
-app.MapPost("auth/register", (RegisterRequest request, CustomerManager customerManager) =>
+app.MapPost("/auth/register", (RegisterRequest request, CustomerManager customerManager) =>
 {
     try
     {
@@ -128,10 +146,25 @@ app.MapPost("auth/login", (LoginRequest request, CustomerManager customerManager
     }
 });
 
-app.MapGet("/auth/me", () =>
+app.MapGet("/auth/me", (int customerId, CustomerManager customerManager) =>
 {
-    // TODO: return current user
-    return Results.Ok();
+    try
+    {
+        Customer customer = customerManager.GetCustomer(customerId);
+
+        return Results.Ok(new
+        {
+            id = customer.Id,
+            name = customer.Name,
+            email = customer.Email,
+            cartId = customer.UserCart,
+            paymentMethodId = customer.PaymentMethodId
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -139,16 +172,30 @@ app.MapGet("/auth/me", () =>
 // PRODUCTS
 // =====================
 
-app.MapGet("/products", () =>
+app.MapGet("/products", (ProductManager productManager) =>
 {
-    // TODO: return all products
-    return Results.Ok();
+    try
+    {
+        List<Product> products = productManager.GetAllProducts();
+        return Results.Ok(products);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/products/{id:int}", (int id) =>
+app.MapGet("/products/{id:int}", (int id, ProductManager productManager) =>
 {
-    // TODO: get product by id
-    return Results.Ok();
+    try
+    {
+        Product product = productManager.GetProduct(id);
+        return Results.Ok(product);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -156,22 +203,50 @@ app.MapGet("/products/{id:int}", (int id) =>
 // CART
 // =====================
 
-app.MapGet("/cart", () =>
+app.MapGet("/cart", (int customerId, CustomerManager customerManager, CartManager cartManager) =>
 {
-    // TODO: get current user's cart
-    return Results.Ok();
+    try
+    {
+        Customer customer = customerManager.GetCustomer(customerId);
+        Cart cart = cartManager.GetCart(customer.UserCart);
+        List<CartItem> items = cartManager.GetCartItems(customer.UserCart);
+
+        return Results.Ok(new
+        {
+            cart.Id,
+            Items = items
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapPost("/cart/items", (CartItemRequest request) =>
+app.MapPost("/cart/items", (CartItemRequest request, CartManager cartManager) =>
 {
-    // TODO: add item to cart
-    return Results.Ok();
+    try
+    {
+        int cartItemId = cartManager.AddCartItem(request.CartId, request.ProductId, request.Quantity);
+        return Results.Ok(new { id = cartItemId });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
+app.MapDelete("/cart/items/{itemId:int}", (int itemId, CartManager cartManager) =>
 {
-    // TODO: remove item from cart
-    return Results.NoContent();
+    try
+    {
+        cartManager.RemoveCartItem(itemId);
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -179,22 +254,49 @@ app.MapDelete("/cart/items/{itemId:int}", (int itemId) =>
 // ORDERS
 // =====================
 
-app.MapPost("/orders", () =>
+app.MapPost("/orders", (CheckoutRequest request, OrderManager orderManager) =>
 {
-    // TODO: checkout cart → create order
-    return Results.Ok();
+    try
+    {
+        int orderId = orderManager.AddOrder(
+            request.CustomerId,
+            request.TotalAmount,
+            "Pending",
+            request.ShippingAddressId,
+            request.BillingAddressId);
+
+        return Results.Created($"/orders/{orderId}", new { id = orderId });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/orders", () =>
+app.MapGet("/orders", (int customerId, OrderManager orderManager) =>
 {
-    // TODO: list user orders
-    return Results.Ok();
+    try
+    {
+        List<Order> orders = orderManager.GetOrdersByCustomer(customerId);
+        return Results.Ok(orders);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
-app.MapGet("/orders/{id:int}", (int id) =>
+app.MapGet("/orders/{id:int}", (int id, OrderManager orderManager) =>
 {
-    // TODO: get order details
-    return Results.Ok();
+    try
+    {
+        Order order = orderManager.GetOrder(id);
+        return Results.Ok(order);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 });
 
 
@@ -209,6 +311,6 @@ public record RegisterRequest(string Username, string Email, string Password);
 
 public record LoginRequest(string Email, string Password);
 
-public record Product(int Id, string Name);
+public record CartItemRequest(int CartId, int ProductId, int Quantity);
 
-public record CartItemRequest(int ProductId, int Quantity);
+public record CheckoutRequest(int CustomerId, decimal TotalAmount, int ShippingAddressId, int BillingAddressId);

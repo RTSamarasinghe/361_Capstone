@@ -1,5 +1,6 @@
 ﻿using System;
 using Managers;
+using Engines;
 using DataContracts;
 using Moq;
 
@@ -25,15 +26,13 @@ public class CustomerManagerTests
             .Setup(engine => engine.AddCustomer(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<int>(),
-                It.IsAny<int>()))
+                It.IsAny<string>()))
             .Returns(1);
 
-        int result = _customerManager.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1);
+        int result = _customerManager.AddCustomer("John Doe", "test@gmail.com", "hashedpassword");
 
         Assert.AreEqual(1, result);
-        _customerEngineMock.Verify(e => e.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1), Times.Once);
+        _customerEngineMock.Verify(e => e.AddCustomer("John Doe", "test@gmail.com", "hashedpassword"), Times.Once);
     }
 
     [TestMethod]

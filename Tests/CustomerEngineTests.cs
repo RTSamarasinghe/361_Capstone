@@ -1,5 +1,7 @@
 using System;
 using DataContracts;
+using Engines;
+using Accessors;
 using Moq;
 
 namespace CustomerTest;
@@ -25,14 +27,14 @@ public class CustomerEngineTests
             .Returns((Customer)null!);
 
         _customerAccessorMock
-            .Setup(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1))
+            .Setup(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword"))
             .Returns(1);
 
-        int result = _customerEngine.AddCustomer(" John Doe ", " test@gmail.com ", "hashedpassword", 1, 1);
+        int result = _customerEngine.AddCustomer(" John Doe ", " test@gmail.com ", "hashedpassword");
 
         Assert.AreEqual(1, result);
         _customerAccessorMock.Verify(a => a.GetCustomerByEmail("test@gmail.com"), Times.Once);
-        _customerAccessorMock.Verify(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1), Times.Once);
+        _customerAccessorMock.Verify(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword"), Times.Once);
     }
 
     [TestMethod]
@@ -44,7 +46,7 @@ public class CustomerEngineTests
 
         try
         {
-            _customerEngine.AddCustomer("John Doe", "test@gmail.com", "hashedpassword", 1, 1);
+            _customerEngine.AddCustomer("John Doe", "test@gmail.com", "hashedpassword");
             Assert.Fail("Expected ArgumentException was not thrown.");
         }
         catch (ArgumentException)

@@ -13,10 +13,9 @@ export default function Login() {
     try {
       const res = await api.post("auth/login", { email, password });
 
-      localStorage.setItem("token", res.data.access_token);
-      console.log("Logged in token:", res.data.access_token);
+      localStorage.setItem("token", res.data.token);
+      console.log("Logged in token:", res.data.token);
 
-      // await onLoginSuccess();
       navigate("/");
     } catch (err: any) {
       console.error(err);
