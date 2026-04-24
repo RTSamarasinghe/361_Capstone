@@ -8,8 +8,9 @@ namespace Tests
     [TestClass]
     public class CustomerAccessorTests
     {
-        private readonly CustomerAccessor _accessor = new CustomerAccessor();
-        private readonly CartAccessor _cartAccessor = new CartAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly CustomerAccessor _accessor = new CustomerAccessor(ConnectionString);
+        private readonly CartAccessor _cartAccessor = new CartAccessor(ConnectionString);
         private int _insertedId;
         private int _cartId;
 
@@ -102,7 +103,7 @@ namespace Tests
         public void UpdateCustomerPaymentMethod_UpdatesPaymentMethod()
         {
             _insertedId = _accessor.AddCustomer("Test User", "test6@example.com", "hashedpass");
-            var pmAccessor = new PaymentMethodAccessor();
+            var pmAccessor = new PaymentMethodAccessor(ConnectionString);
             int pmId = pmAccessor.AddPaymentMethod("hash", DateTime.Now.AddYears(2), "Test User", "pinhash");
             _accessor.UpdateCustomerPaymentMethod(_insertedId, pmId);
             Customer result = _accessor.GetCustomer(_insertedId);

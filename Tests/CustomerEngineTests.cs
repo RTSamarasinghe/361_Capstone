@@ -2,6 +2,7 @@ using System;
 using DataContracts;
 using Engines;
 using Accessors;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 
 namespace CustomerTest;
@@ -10,13 +11,25 @@ namespace CustomerTest;
 public class CustomerEngineTests
 {
     private Mock<ICustomerAccessor> _customerAccessorMock = null!;
+    private Mock<IPasswordHasher<Customer>> _passwordHasherMock = null!;
+    private Mock<IAuthEngine> _authEngineMock = null!;
     private CustomerEngine _customerEngine = null!;
 
     [TestInitialize]
     public void Setup()
     {
         _customerAccessorMock = new Mock<ICustomerAccessor>();
-        _customerEngine = new CustomerEngine(_customerAccessorMock.Object);
+        _passwordHasherMock = new Mock<IPasswordHasher<Customer>>();
+        _authEngineMock = new Mock<IAuthEngine>();
+
+        _passwordHasherMock
+            .Setup(h => h.HashPassword(It.IsAny<Customer>(), It.IsAny<string>()))
+            .Returns("hashedpassword");
+
+        _customerEngine = new CustomerEngine(
+            _customerAccessorMock.Object,
+            _passwordHasherMock.Object,
+            _authEngineMock.Object);
     }
 
     [TestMethod]
@@ -30,10 +43,11 @@ public class CustomerEngineTests
             .Setup(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword"))
             .Returns(1);
 
-        int result = _customerEngine.AddCustomer(" John Doe ", " test@gmail.com ", "hashedpassword");
+        int result = _customerEngine.AddCustomer(" John Doe ", " test@gmail.com ", "password");
 
         Assert.AreEqual(1, result);
         _customerAccessorMock.Verify(a => a.GetCustomerByEmail("test@gmail.com"), Times.Once);
+        _passwordHasherMock.Verify(h => h.HashPassword(It.IsAny<Customer>(), "password"), Times.Once);
         _customerAccessorMock.Verify(a => a.AddCustomer("John Doe", "test@gmail.com", "hashedpassword"), Times.Once);
     }
 
@@ -46,7 +60,7 @@ public class CustomerEngineTests
 
         try
         {
-            _customerEngine.AddCustomer("John Doe", "test@gmail.com", "hashedpassword");
+            _customerEngine.AddCustomer("John Doe", "test@gmail.com", "password");
             Assert.Fail("Expected ArgumentException was not thrown.");
         }
         catch (ArgumentException)
