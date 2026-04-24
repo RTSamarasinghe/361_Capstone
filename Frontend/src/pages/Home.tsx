@@ -8,29 +8,29 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  useEffect(() => {
-    api
-      .get<Product[]>("/products")
-      .then((res) => {
-        console.log(res.data);
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch products:", err);
-      });
-  }, []);
-
   // useEffect(() => {
-  //   // Display Order Placed
-  //   if (localStorage.getItem("orderSuccess")) {
-  //     setShowSuccess(true);
-  //     localStorage.removeItem("orderSuccess");
-
-  //     setTimeout(() => setShowSuccess(false), 3000);
-  //   }
-  //   // Add Products
-  //   setProducts(mockProducts);
+  //   api
+  //     .get<Product[]>("/products")
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setProducts(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Failed to fetch products:", err);
+  //     });
   // }, []);
+
+  useEffect(() => {
+    // Display Order Placed
+    if (localStorage.getItem("orderSuccess")) {
+      setShowSuccess(true);
+      localStorage.removeItem("orderSuccess");
+
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+    // Add Products
+    setProducts(mockProducts);
+  }, []);
 
   return (
     <div className="min-h-screen">
