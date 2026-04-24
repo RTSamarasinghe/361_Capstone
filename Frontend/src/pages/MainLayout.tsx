@@ -1,8 +1,18 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { mockProducts } from "../temp/mockProducts";
 
-export default function MainLayout() {
+type MainLayoutProps = {
+  token: string | null;
+  setToken?: (token: string | null) => void;
+};
+
+export default function MainLayout({ token, setToken }: MainLayoutProps) {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken?.(null); // safe optional call
+  };
 
   // TEMP: fake cart
   const cartItems = [
@@ -48,13 +58,22 @@ export default function MainLayout() {
               )}
             </button>
 
-            {/* Login */}
-            <button
-              onClick={() => navigate("/login")}
-              className="px-5 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm"
-            >
-              Login
-            </button>
+            {/* Login or Logged in*/}
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2 rounded-md bg-gray-800 text-white"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="px-5 py-2 rounded-md bg-blue-600 text-white"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </nav>

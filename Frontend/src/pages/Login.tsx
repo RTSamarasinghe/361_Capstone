@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../api";
 
-export default function Login() {
+type LoginProps = {
+  setToken?: (token: string | null) => void;
+};
+
+export default function Login({ setToken }: LoginProps) {
+  const location = useLocation();
+  const message = location.state?.message;
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,9 +21,10 @@ export default function Login() {
       const res = await api.post("auth/login", { email, password });
 
       localStorage.setItem("token", res.data.token);
+      setToken?.(res.data.token);
       console.log("Logged in token:", res.data.token);
 
-      navigate("/");
+      navigate(from);
     } catch (err: any) {
       console.error(err);
     }
@@ -27,8 +35,12 @@ export default function Login() {
       <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md border border-gray-200">
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
           Sign in
-        </h2>
-
+        </h2>{" "}
+        {message && (
+          <div className="mb-4 px-4 py-2 rounded-md bg-yellow-100 text-yellow-800 border border-yellow-300 text-sm">
+            {message}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
@@ -55,7 +67,6 @@ export default function Login() {
             Login
           </button>
         </form>
-
         <div className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
           <button
