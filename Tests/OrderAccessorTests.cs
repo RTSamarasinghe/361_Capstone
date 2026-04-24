@@ -21,7 +21,7 @@ namespace Tests
         public void Setup()
         {
             _cartId = _cartAccessor.AddCart();
-            _customerId = _customerAccessor.AddCustomer("Test User", "ordertest@example.com", "hashedpass", _cartId, null);
+            _customerId = _customerAccessor.AddCustomer("Test User", "ordertest@example.com", "hashedpass");
             _addressId = _addressAccessor.AddAddress(_customerId, "123 Main St", "Lincoln", "NE", "68501", "USA");
         }
 

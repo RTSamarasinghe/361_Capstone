@@ -19,7 +19,7 @@ namespace Tests
         public void Setup()
         {
             _cartId = _cartAccessor.AddCart();
-            _customerId = _customerAccessor.AddCustomer("Test User", "addrtest@example.com", "hashedpass", _cartId, null);
+            _customerId = _customerAccessor.AddCustomer("Test User", "addrtest@example.com", "hashedpass");
         }
 
         [TestCleanup]

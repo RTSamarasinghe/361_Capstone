@@ -29,7 +29,7 @@ namespace Tests
             _categoryId = _categoryAccessor.AddCategory("Test Category");
             _productId = _productAccessor.AddProduct("Test Product", "Desc", 9.99m, _categoryId, null, null, null, null, 10);
             _cartId = _cartAccessor.AddCart();
-            _customerId = _customerAccessor.AddCustomer("Test User", "orderitemtest@example.com", "hashedpass", _cartId, null);
+            _customerId = _customerAccessor.AddCustomer("Test User", "orderitemtest@example.com", "hashedpass");
             _addressId = _addressAccessor.AddAddress(_customerId, "123 Main St", "Lincoln", "NE", "68501", "USA");
             _orderId = _orderAccessor.AddOrder(_customerId, 99.99m, "Pending", _addressId, _addressId);
         }

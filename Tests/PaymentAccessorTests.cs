@@ -25,7 +25,7 @@ namespace Tests
         public void Setup()
         {
             _cartId = _cartAccessor.AddCart();
-            _customerId = _customerAccessor.AddCustomer("Test User", "paymenttest@example.com", "hashedpass", _cartId, null);
+            _customerId = _customerAccessor.AddCustomer("Test User", "paymenttest@example.com", "hashedpass");
             _addressId = _addressAccessor.AddAddress(_customerId, "123 Main St", "Lincoln", "NE", "68501", "USA");
             _orderId = _orderAccessor.AddOrder(_customerId, 99.99m, "Pending", _addressId, _addressId);
             _paymentMethodId = _paymentMethodAccessor.AddPaymentMethod("hashedcard", DateTime.Now.AddYears(2), "Test User", "hashedpin");
