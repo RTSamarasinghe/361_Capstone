@@ -1,3 +1,6 @@
+
+
+
 function ErrorNotification({ message }: { message: string }) {
     return (
         <div style={{
