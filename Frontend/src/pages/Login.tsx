@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../api";
-
+import ErrorNotification from "../components/Error";
 type LoginProps = {
   setToken?: (token: string | null) => void;
 };
@@ -12,11 +12,12 @@ export default function Login({ setToken }: LoginProps) {
   const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.SubmitEvent) {
-    e.preventDefault();
-
+      e.preventDefault();
+      setError(null);
     try {
       const res = await api.post("auth/login", { email, password });
 
@@ -26,7 +27,20 @@ export default function Login({ setToken }: LoginProps) {
 
       navigate(from);
     } catch (err: any) {
-      console.error(err);
+        console.error(err);
+        if (err.response) {
+            const status = err.response.status;
+
+            if (status === 401) {
+                setError(err.response.data.message || "Invalid email or password. Please try again.");
+            } else if (status === 400) {
+                setError(err.response.data.message || "Invalid input. Please check your data and try again.");
+            } else if (status === 500) {
+                setError("Server error. Please try again later.");
+            } else {
+                setError("An unexpected error occurred. Please try again.");
+            }
+        }
     }
   }
 
@@ -41,7 +55,8 @@ export default function Login({ setToken }: LoginProps) {
             {message}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {error && <ErrorNotification message={error} />}
           <input
             type="text"
             placeholder="Email"

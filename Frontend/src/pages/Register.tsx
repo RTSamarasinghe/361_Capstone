@@ -1,19 +1,20 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-
+import ErrorNotification from "../components/Error";
 export default function Register() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.SubmitEvent) {
-    e.preventDefault();
-
+      e.preventDefault();
+      setError(null); // Clear previous errors
     try {
-      const res = await api.post("auth/register", {
+      const res = await api.post("/auth/register", {
         username,
         email,
         password,
@@ -21,9 +22,29 @@ export default function Register() {
       console.log("User registered:", res.data);
       navigate("/");
     } catch (err: any) {
-      alert("Something went wrong on our end. Please try again later.");
+
+        if (err.response) {
+            const status = err.response.status;
+
+            if (status === 409) {
+                setError(err.response.data.message || "Email or username already exists.");
+            }
+
+            else if (status === 400) {
+                setError(err.response.data.message || "Invalid input. Please check your data and try again.");
+            }
+
+            else if (status === 500) {
+                setError("Server error. Please try again later.");
+            }
+            else {
+                setError("An unexpected error occurred. Please try again.");
+            }
+
+        }
       console.error(err);
     }
+    
   }
 
   return (
@@ -33,7 +54,8 @@ export default function Register() {
           Create Account
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {error && <ErrorNotification message={error} />}
           <input
             type="text"
             placeholder="Username"
