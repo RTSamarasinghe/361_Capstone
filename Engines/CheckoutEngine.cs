@@ -14,7 +14,7 @@ using Engines;
 		private readonly ISaleEngine _saleEngine;
 		private readonly ISaleItemEngine _saleItemEngine;
 
-		public CheckoutEngine(ICustomerEngine customerEngine, ICartItemEngine cartItemEngine, IOrderEngine orderEngine, IOrderItemEngine orderItemEngine, IPaymentEngine paymentEngine, IPaymentMethodEngine paymentMethodEngine, IProductEngine productEngine, ISaleCategoryEngine saleCategoryEngine, ISaleEngine saleEngine, ISaleItemEngine saleItemEngine)
+		public CheckoutEngine(ICartItemEngine cartItemEngine, ICustomerEngine customerEngine, IOrderEngine orderEngine, IOrderItemEngine orderItemEngine, IPaymentEngine paymentEngine, IPaymentMethodEngine paymentMethodEngine, IProductEngine productEngine, ISaleCategoryEngine saleCategoryEngine, ISaleEngine saleEngine, ISaleItemEngine saleItemEngine)
 		{
 			_cartItemEngine = cartItemEngine;
 			_customerEngine = customerEngine;
