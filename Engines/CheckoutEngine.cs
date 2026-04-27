@@ -28,7 +28,7 @@ using Engines;
 			_saleItemEngine = saleItemEngine;
 		}
 
-		public void ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId, int paymentMethodId) 
+		public void ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId) 
 		{
 			Customer customer = _customerEngine.GetCustomer(customerId);
 			int cartId = customer.UserCart;
