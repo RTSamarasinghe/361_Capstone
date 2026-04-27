@@ -324,6 +324,23 @@ app.MapGet("/orders/{id:int}", (int id, OrderManager orderManager) =>
 
 app.Run();
 
+// =====================
+// SALES
+// =====================
+
+app.MapGet("/sales", (SaleManager saleManager) =>
+{
+    try
+    {
+        List<Sale> sales = saleManager.GetAllSales();
+        return Results.Ok(sales);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+});
+
 
 // =====================
 // DTOs (minimal)
