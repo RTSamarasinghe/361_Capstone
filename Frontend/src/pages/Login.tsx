@@ -15,16 +15,28 @@ export default function Login({ setToken }: LoginProps) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
 
+    /**
+     * Loggs in the user if exists by checking email and passhash from database and stores token in localStorage
+     * Properly tested error handling for status codes.
+     * 
+     * @param e
+     */
+
   async function handleSubmit(e: React.SubmitEvent) {
       e.preventDefault();
       setError(null);
     try {
       const res = await api.post("auth/login", { email, password });
+        const token = res.data.token
 
-      localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", token); //This is important
       setToken?.(res.data.token);
-      console.log("Logged in token:", res.data.token);
+      console.log("Logged in token:", token);
+        console.log("Id:", res.data.customerId);
+        
 
+
+        console.log("Decoded:", decoded);
       navigate(from);
     } catch (err: any) {
         console.error(err);

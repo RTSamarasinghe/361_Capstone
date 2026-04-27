@@ -1,10 +1,15 @@
+
+import api from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { mockProducts } from "../temp/mockProducts";
+import ErrorNotification from "../components/Error";
+import { getCustomerId } from "../utils/auth/auth"
 
 export default function Checkout() {
   const navigate = useNavigate();
-
+    const [error, setError] = useState<string | null>(null);
+    const customerId = getCustomerId();
   // fake cart again (replace later with real cart state)
   const cartItems = [
     { ...mockProducts[0], quantity: 1 },
@@ -31,15 +36,49 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  /**
+   * Retrieves customerId from localStorage and parses in to the CheckoutrequestDTOS and AddressDTOs
+   * Automatically creates an address linked to customer since it wasn't required to windowshop the site :)
+   * @param e
+   */
+  async function handleSubmit(e: React.FormEvent) {
+      e.preventDefault();
+      setError(null);
 
-    console.log("Order submitted:", { form, cartItems });
+      if (!customerId) {
+          setError("You must be logged in to checkout.");
+          return;
+      }
 
-    // fake success notification
-    localStorage.setItem("orderSuccess", "true");
+      try {
 
-    navigate("/");
+          /*Creating address at time of checkoit */
+          const addressRes = await api.post("/addresses", {
+              customerId,
+              street: form.address,
+              city: form.city,
+              state: form.state,
+              postalCode: form.zip,
+              country: "USA"
+          });
+
+          const addressId = addressRes.data.id;
+
+          const res = await api.post("/orders", {
+              customerId,
+              totalAmount: subtotal,
+              shippingAddress: addressId,
+              billingAddressId: addressId
+
+          });
+
+          console.log("Order response:", res.data);
+          console.log("Id:", getCustomerId());
+          localStorage.setItem("orderSuccess", "true");
+          navigate("/");
+      } catch (err) {
+          setError("Failed to place order. Please try again.");
+      }
   }
 
   return (
@@ -51,7 +90,8 @@ export default function Checkout() {
         <form
           onSubmit={handleSubmit}
           className="md:col-span-2 bg-white border border-gray-200 rounded-2xl shadow-sm p-6 space-y-6"
-        >
+              >
+                  {error && <ErrorNotification message={error} />}
           {/* Shipping */}
           <div>
             <h2 className="text-xl font-semibold mb-4 text-gray-800">

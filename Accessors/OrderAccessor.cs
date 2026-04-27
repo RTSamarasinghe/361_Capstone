@@ -3,8 +3,12 @@ using Microsoft.Data.SqlClient;
 
 public class OrderAccessor : IOrderAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+
+    public OrderAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddOrder(int customerId, decimal totalAmount, string orderStatus, int shippingAddressId, int billingAddressId)
     {

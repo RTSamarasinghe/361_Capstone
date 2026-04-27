@@ -3,8 +3,11 @@ using Microsoft.Data.SqlClient;
 
 public class AddressAccessor : IAddressAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+    public AddressAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddAddress(int customerId, string street, string city, string state, string postalCode, string country)
     {

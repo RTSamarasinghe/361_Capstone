@@ -50,8 +50,12 @@ builder.Services.AddScoped<IProductAccessor, ProductAccessor>();
 builder.Services.AddScoped<ProductManager>();
 
 builder.Services.AddScoped<IOrderEngine, OrderEngine>();
-builder.Services.AddScoped<IOrderAccessor, OrderAccessor>();
+builder.Services.AddScoped<IOrderAccessor, OrderAccessor>(sp => new OrderAccessor(connectionString));
 builder.Services.AddScoped<OrderManager>();
+
+builder.Services.AddScoped<IAddressEngine, AddressEngine>();
+builder.Services.AddScoped<IAddressAccessor, AddressAccessor>(sp => new AddressAccessor(connectionString));
+builder.Services.AddScoped<AddressManager>();
 
 builder.Services.AddScoped<ICartEngine, CartEngine>();
 builder.Services.AddScoped<ICartAccessor, CartAccessor>(sp => new CartAccessor(connectionString));
@@ -272,6 +276,25 @@ app.MapPost("/orders", (CheckoutRequest request, OrderManager orderManager) =>
     }
 });
 
+app.MapPost("/addresses", (AddressDTO request, AddressManager addressManager) =>
+    {
+        try
+        {
+            int addressId = addressManager.AddAddress(
+                request.CustomerId,
+                request.street,
+                request.city,
+                request.state,
+                request.postalCode,
+                request.country);
+            return Results.Created($"/addresses/{addressId}", new { id = addressId });
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(new { error = e.Message });
+        }
+    });
+
 app.MapGet("/orders", (int customerId, OrderManager orderManager) =>
 {
     try
@@ -313,3 +336,7 @@ public record LoginRequest(string Email, string Password);
 public record CartItemRequest(int CartId, int ProductId, int Quantity);
 
 public record CheckoutRequest(int CustomerId, decimal TotalAmount, int ShippingAddressId, int BillingAddressId);
+
+public record CreateOrderDTO(int CustomerId, decimal TotalAmount, string OrderStatus, AddressDTO ShippingAddress);
+
+public record AddressDTO(int CustomerId, string street, string city, string state, string postalCode, string country);
