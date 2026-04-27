@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 public class CartItemAccessor : ICartItemAccessor
 {
     private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
     public int AddCartItem(int cartId, int productId, int quantity)
     {
@@ -110,10 +110,10 @@ public class CartItemAccessor : ICartItemAccessor
     {
         return new CartItem
         {
-            Id        = (int)reader["Id"],
-            CartId    = (int)reader["CartId"],
+            Id = (int)reader["Id"],
+            CartId = (int)reader["CartId"],
             ProductId = (int)reader["ProductId"],
-            Quantity  = (int)reader["Quantity"]
+            Quantity = (int)reader["Quantity"]
         };
     }
 }
