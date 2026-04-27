@@ -3,8 +3,12 @@ using Microsoft.Data.SqlClient;
 
 public class SaleCategoryAccessor : ISaleCategoryAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+
+    public SaleCategoryAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddSaleCategory(int saleId, int categoryId)
     {

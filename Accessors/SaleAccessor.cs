@@ -3,8 +3,12 @@ using Microsoft.Data.SqlClient;
 
 public class SaleAccessor : ISaleAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+
+    public SaleAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddSale(DateTime startDate, DateTime? endDate, decimal? discountAmount, decimal? discountPercent)
     {

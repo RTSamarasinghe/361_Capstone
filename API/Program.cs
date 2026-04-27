@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DataContracts;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +17,12 @@ var key = "this_is_a_very_long_and_secure_secret_key_32_chars!!"; //DevOnly
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
-builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>(sp => new CustomerAccessor(connectionString));
-builder.Services.AddScoped<CustomerManager>();
-builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
-builder.Services.AddScoped<IAuthEngine, AuthEngine>();
+builder.Services.AddApplicationServices(builder.Configuration);
+//builder.Services.AddScoped<ICustomerEngine, CustomerEngine>();
+//builder.Services.AddScoped<ICustomerAccessor,  CustomerAccessor>(sp => new CustomerAccessor(connectionString));
+//builder.Services.AddScoped<CustomerManager>();
+//builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
+//builder.Services.AddScoped<IAuthEngine, AuthEngine>();
 
 
 
@@ -45,22 +47,22 @@ builder.Services.AddAuthorization();
 
 /************ CORS CONFIGURATION ************/
 
-builder.Services.AddScoped<IProductEngine, ProductEngine>();
-builder.Services.AddScoped<IProductAccessor, ProductAccessor>();
-builder.Services.AddScoped<ProductManager>();
+//builder.Services.AddScoped<IProductEngine, ProductEngine>();
+//builder.Services.AddScoped<IProductAccessor, ProductAccessor>();
+//builder.Services.AddScoped<ProductManager>();
 
-builder.Services.AddScoped<IOrderEngine, OrderEngine>();
-builder.Services.AddScoped<IOrderAccessor, OrderAccessor>(sp => new OrderAccessor(connectionString));
-builder.Services.AddScoped<OrderManager>();
+//builder.Services.AddScoped<IOrderEngine, OrderEngine>();
+//builder.Services.AddScoped<IOrderAccessor, OrderAccessor>(sp => new OrderAccessor(connectionString));
+//builder.Services.AddScoped<OrderManager>();
 
-builder.Services.AddScoped<IAddressEngine, AddressEngine>();
-builder.Services.AddScoped<IAddressAccessor, AddressAccessor>(sp => new AddressAccessor(connectionString));
-builder.Services.AddScoped<AddressManager>();
+//builder.Services.AddScoped<IAddressEngine, AddressEngine>();
+//builder.Services.AddScoped<IAddressAccessor, AddressAccessor>(sp => new AddressAccessor(connectionString));
+//builder.Services.AddScoped<AddressManager>();
 
-builder.Services.AddScoped<ICartEngine, CartEngine>();
-builder.Services.AddScoped<ICartAccessor, CartAccessor>(sp => new CartAccessor(connectionString));
-builder.Services.AddScoped<ICartItemAccessor, CartItemAccessor>();
-builder.Services.AddScoped<CartManager>();
+//builder.Services.AddScoped<ICartEngine, CartEngine>();
+//builder.Services.AddScoped<ICartAccessor, CartAccessor>(sp => new CartAccessor(connectionString));
+//builder.Services.AddScoped<ICartItemAccessor, CartItemAccessor>();
+//builder.Services.AddScoped<CartManager>();
 
 
 builder.Services.AddCors(options =>

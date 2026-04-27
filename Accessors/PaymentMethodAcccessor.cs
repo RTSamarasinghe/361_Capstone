@@ -3,8 +3,12 @@ using Microsoft.Data.SqlClient;
 
 public class PaymentMethodAccessor : IPaymentMethodAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+
+    public PaymentMethodAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddPaymentMethod(string cardNumberHash, DateTime expirationDate, string cardholderName, string pinHash)
     {

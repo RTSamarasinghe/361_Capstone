@@ -3,8 +3,12 @@ using Microsoft.Data.SqlClient;
 
 public class PaymentAccessor : IPaymentAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+
+    public PaymentAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddPayment(int orderId, decimal amount, DateTime paymentDate, int paymentMethod)
     {

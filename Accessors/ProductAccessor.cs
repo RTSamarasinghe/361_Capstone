@@ -3,8 +3,11 @@ using Microsoft.Data.SqlClient;
 
 public class ProductAccessor : IProductAccessor
 {
-    private readonly string _connectionString =
-        @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;";
+    private readonly string _connectionString;
+    public ProductAccessor(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public int AddProduct(string name, string description, decimal price, int categoryId, string imageURL, string manufacturer, decimal? rating, string sku, int stockQuantity)
     {
