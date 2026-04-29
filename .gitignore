@@ -2,3 +2,4 @@
 **/obj/
 **/*.user
 .vs/
+API/appsettings.Development.json
