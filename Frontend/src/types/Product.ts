@@ -4,7 +4,7 @@ export interface Product {
   description : string;
   price: number;
   categoryId: number;
-  imageUrl: string;
+  imageURL: string;
   manufacturuer: string;
   rating: number;
   sku: string;

@@ -38,7 +38,7 @@ export default function Product() {
     async function fetchCart() {
       try {
         const res = await api.get("/auth/me", {
-          params: { customerId: 1 }, // ⚠️ TEMP (your backend requires this)
+          params: { customerId: 8 }, // ⚠️ TEMP (your backend requires this)
         });
 
         setCartId(res.data.cartId);
@@ -95,7 +95,7 @@ export default function Product() {
       {/* Image */}
       <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
         <img
-          src={`http://localhost:5208/${product.imageUrl}`}
+          src={`http://localhost:5208/${product.imageURL}`}
           alt={product.name}
           className="w-full h-full object-cover"
         />

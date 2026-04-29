@@ -13,7 +13,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Product Image */}
       <div className="aspect-square bg-gray-100 overflow-hidden">
         <img
-          src={`http://localhost:5208/${product.imageUrl}`}
+          src={`http://localhost:5208/${product.imageURL}`}
           alt={product.name}
           className="w-full h-full object-cover hover:scale-105 transition duration-300"
         />
