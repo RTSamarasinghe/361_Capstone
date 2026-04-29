@@ -10,7 +10,8 @@ public class DBIntegration
     [TestInitialize]
     public void Setup()
     {
-        _customerAccessor = new CustomerAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        _customerAccessor = new CustomerAccessor(ConnectionString);
     }
     [TestMethod]
     public void DatabaseConnection_ShouldOpenSuccessfully()
