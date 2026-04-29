@@ -28,7 +28,7 @@ using Engines;
 			_saleItemEngine = saleItemEngine;
 		}
 
-		public void ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId) 
+		public int ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId) 
 		{
 			Customer customer = _customerEngine.GetCustomer(customerId);
 			int cartId = customer.UserCart;
@@ -45,23 +45,30 @@ using Engines;
 			for(int i = 0; i < cart.Count; i++)
 			{
 				Product product = _productEngine.GetProduct(cart[i].ProductId);
+				if (cart[i].Quantity < product.StockQuantity) 
+				{
+					cart[i].Quantity = product.StockQuantity;
+				}
 				decimal price = ApplySales(product);
 				_orderItemEngine.AddOrderItem(orderId, product.Id, cart[i].Quantity, price);
 				_cartItemEngine.DeleteCartItem(cart[i].Id);
-				totalPrice += price * cart[i].Quantity;				
+				totalPrice += price * cart[i].Quantity;
+				_productEngine.UpdateStockQuantity(product.Id, product.StockQuantity - cart[i].Quantity);
 			}
 
 			_orderEngine.UpdateOrderTotalAmount(orderId, totalPrice);
 			_orderEngine.UpdateOrderStatus(orderId, "Awaiting Payment");
+			return orderId;
 		}
 
-		public void PayForOrder(int orderId, int paymentMethodId)
+		public int PayForOrder(int orderId, int paymentMethodId)
 		{
 			Order order = _orderEngine.GetOrder(orderId);
 			_paymentMethodEngine.GetPaymentMethod(paymentMethodId);
 
-			_paymentEngine.AddPayment(orderId, order.TotalAmount, DateTime.Now, paymentMethodId);
+			int paymentId = _paymentEngine.AddPayment(orderId, order.TotalAmount, DateTime.Now, paymentMethodId);
 			_orderEngine.UpdateOrderStatus(orderId, "Purchased");
+			return paymentId;
 		}
 
 		private decimal ApplySales(Product product)

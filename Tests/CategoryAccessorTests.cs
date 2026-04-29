@@ -7,7 +7,8 @@ namespace Tests
     [TestClass]
     public class CategoryAccessorTests
     {
-        private readonly CategoryAccessor _accessor = new CategoryAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly CategoryAccessor _accessor = new CategoryAccessor(ConnectionString);
         private int _insertedId;
 
         [TestCleanup]

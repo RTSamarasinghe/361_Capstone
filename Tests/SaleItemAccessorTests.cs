@@ -8,10 +8,11 @@ namespace Tests
     [TestClass]
     public class SaleItemAccessorTests
     {
-        private readonly SaleItemAccessor _accessor = new SaleItemAccessor();
-        private readonly SaleAccessor _saleAccessor = new SaleAccessor();
-        private readonly ProductAccessor _productAccessor = new ProductAccessor();
-        private readonly CategoryAccessor _categoryAccessor = new CategoryAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly SaleItemAccessor _accessor = new SaleItemAccessor(ConnectionString);
+        private readonly SaleAccessor _saleAccessor = new SaleAccessor(ConnectionString);
+        private readonly ProductAccessor _productAccessor = new ProductAccessor(ConnectionString);
+        private readonly CategoryAccessor _categoryAccessor = new CategoryAccessor(ConnectionString);
         private int _insertedId;
         private int _saleId;
         private int _productId;

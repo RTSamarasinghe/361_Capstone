@@ -9,14 +9,14 @@ public class CheckoutManager : ICheckoutManager
 		_checkoutEngine = checkoutEngine;
 	}
 
-	public void ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId)
+	public int ConvertCartToOrder(int customerId, int shippingAddressId, int billingAddressId)
 	{
-		_checkoutEngine.ConvertCartToOrder(customerId, shippingAddressId, billingAddressId);
+		return _checkoutEngine.ConvertCartToOrder(customerId, shippingAddressId, billingAddressId);
 	}
 
-	public void PayForOrder(int orderId, int paymentMethodId)
+	public int PayForOrder(int orderId, int paymentMethodId)
 	{
-		_checkoutEngine.PayForOrder(orderId, paymentMethodId);
+		return _checkoutEngine.PayForOrder(orderId, paymentMethodId);
 	}
 }
 

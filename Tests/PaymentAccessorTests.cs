@@ -8,12 +8,13 @@ namespace Tests
     [TestClass]
     public class PaymentAccessorTests
     {
-        private readonly PaymentAccessor _accessor = new PaymentAccessor();
-        private readonly OrderAccessor _orderAccessor = new OrderAccessor();
-        private readonly CustomerAccessor _customerAccessor = new CustomerAccessor();
-        private readonly CartAccessor _cartAccessor = new CartAccessor();
-        private readonly AddressAccessor _addressAccessor = new AddressAccessor();
-        private readonly PaymentMethodAccessor _paymentMethodAccessor = new PaymentMethodAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly PaymentAccessor _accessor = new PaymentAccessor(ConnectionString);
+        private readonly OrderAccessor _orderAccessor = new OrderAccessor(ConnectionString);
+        private readonly CustomerAccessor _customerAccessor = new CustomerAccessor(ConnectionString);
+        private readonly CartAccessor _cartAccessor = new CartAccessor(ConnectionString);
+        private readonly AddressAccessor _addressAccessor = new AddressAccessor(ConnectionString);
+        private readonly PaymentMethodAccessor _paymentMethodAccessor = new PaymentMethodAccessor(ConnectionString);
         private int _insertedId;
         private int _orderId;
         private int _customerId;
