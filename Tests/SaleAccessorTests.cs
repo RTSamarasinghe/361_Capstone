@@ -8,7 +8,8 @@ namespace Tests
     [TestClass]
     public class SaleAccessorTests
     {
-        private readonly SaleAccessor _accessor = new SaleAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly SaleAccessor _accessor = new SaleAccessor(ConnectionString);
         private int _insertedId;
 
         [TestCleanup]
