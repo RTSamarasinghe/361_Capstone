@@ -18,7 +18,7 @@ VALUES('Wireless Extension Cord', 'An extension cord that is wireless and doesn'
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
 VALUES('Bissell2252', 'A powerful vacuum cleaner for deep cleaning', 199.99, 2, 'Images/Bissell2252.png', 'Bissell', 4.7, 'BIS-2252', 50);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
-VALUES('Hoover WindTunnel 3', 'A versatile vacuum cleaner with advanced suction technology', 249.99, 2, 'Images/HooverWindTunnel3.png', 'Hoover', 4.5, 'HOO-WT3', 30);
+VALUES('Hoover WindTunnel 3', 'A versatile vacuum cleaner with advanced suction technology', 249.99, 2, 'Images/HooverWindTunnel.png', 'Hoover', 4.5, 'HOO-WT3', 30);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
 VALUES('Shark NV352', 'A compact vacuum cleaner with powerful suction and easy maneuverability', 129.99, 2, 'Images/SharkNV352.png', 'Shark', 4.3, 'SHARK-NV352', 60);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
