@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../api";
 import ErrorNotification from "../components/Error";
+import { jwtDecode } from "jwt-decode";
 type LoginProps = {
   setToken?: (token: string | null) => void;
 };
@@ -31,10 +32,15 @@ export default function Login({ setToken }: LoginProps) {
 
         localStorage.setItem("token", token); //This is important
       setToken?.(res.data.token);
-      console.log("Logged in token:", token);
-        console.log("Id:", res.data.customerId);
-        
+        console.log("Logged in token:", token);
 
+        //Dev only: decode token to verify it contains expected data (customerId, email, etc.)
+        const decoded = jwtDecode(token);
+        const customerId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+
+        console.log("Id:", customerId);
+
+        
 
         console.log("Decoded:", decoded);
       navigate(from);

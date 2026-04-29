@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import ErrorNotification from "../components/Error";
+import { getCustomerId } from "../utils/auth/auth";
 
 type CartItem = {
   id: number;
@@ -28,8 +30,8 @@ export default function Cart() {
     async function fetchCart() {
       try {
         // 1. get user (TEMP: customerId = 1)
-        const me = await api.get("/auth/me", {
-          params: { customerId: 1 },
+          const me = await api.get("/auth/me", {
+              params: { customerId: getCustomerId() },
         });
 
         console.log("got user");
