@@ -8,7 +8,8 @@ namespace Tests
     [TestClass]
     public class PaymentMethodAccessorTests
     {
-        private readonly PaymentMethodAccessor _accessor = new PaymentMethodAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly PaymentMethodAccessor _accessor = new PaymentMethodAccessor(ConnectionString);
         private int _insertedId;
 
         [TestCleanup]
