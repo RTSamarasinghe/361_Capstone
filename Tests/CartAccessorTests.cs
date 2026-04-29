@@ -8,7 +8,8 @@ namespace Tests
     [TestClass]
     public class CartAccessorTests
     {
-        private readonly CartAccessor _accessor = new CartAccessor();
+        private const string ConnectionString = @"Server=localhost\SQLEXPRESS;Database=ProjectDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly CartAccessor _accessor = new CartAccessor(ConnectionString);
         private int _insertedId;
 
         [TestCleanup]
