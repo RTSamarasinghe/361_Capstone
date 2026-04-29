@@ -12,9 +12,9 @@ VALUES('Fireproof Matches', 'Matches that are fireproof, to prevent fires', 17.3
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
 VALUES('Silent Alarm Clock', 'An alarm clock that doesn''t make any noise', 28.99, 1, 'Images/SilentAlarmClock.png', 'Nonsense Inc.', 3.2, 'SAC-001', 150);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
-VALUES('Waterproof Sponges', 'Sponges that are waterproof and won''t absorb water', 9.11, 1, 'Images/WaterproofSponge.png', 'Nonsense Inc.', 2.8, 'WPS-001', 80);
+VALUES('Waterproof Sponges', 'Sponges that are waterproof and won''t absorb water', 3.50, 1, 'Images/WaterproofSponge.png', 'Nonsense Inc.', 2.8, 'WPS-001', 80);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
-VALUES('Wireless Extension Cord', 'An extension cord that is wireless and doesn''t require plugging in', 6.23, 1, 'Images/WirelessExtensionCord.png', 'Nonsense Inc.', 0.4, 'WEC-001', 120);
+VALUES('Wireless Extension Cord', 'An extension cord that is wireless and doesn''t require plugging in', 7.37, 1, 'Images/WirelessExtensionCord.png', 'Nonsense Inc.', 0.4, 'WEC-001', 120);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
 VALUES('Bissell2252', 'A powerful vacuum cleaner for deep cleaning', 199.99, 2, 'Images/Bissell2252.png', 'Bissell', 4.7, 'BIS-2252', 50);
 INSERT INTO Product (Name, Description, Price, CategoryId, ImageURL, Manufacturer, Rating, Sku, StockQuantity)
